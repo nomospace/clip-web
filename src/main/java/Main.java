@@ -1,5 +1,3 @@
-package main.java;
-
 /**
  * User: jinlu
  * Date: 2013-1-8
