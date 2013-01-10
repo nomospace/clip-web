@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="cloudHostMessageSource">
+        <property name="basename" value="classpath:language/cloud_host"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="dBMessageSource">
+        <property name="basename" value="classpath:language/db"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="backupMessageSource">
+        <property name="basename" value="classpath:language/backup"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="commonMessageSource">
+        <property name="basename" value="classpath:language/common"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="uniOperationMessageSource">
+        <property name="basename" value="classpath:language/unioperation"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="octopodMessageSource">
+        <property name="basename" value="classpath:language/octopod"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="serverPlatformMessageSource">
+        <property name="basename" value="classpath:language/server_platform"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="distributeMessageSource">
+        <property name="basename" value="classpath:language/distribute"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="monitorMessageSource">
+        <property name="basename" value="classpath:language/monitor"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          id="workflowMessageSource">
+        <property name="basename" value="classpath:language/workflow"/>
+    </bean>
+
+</beans>
