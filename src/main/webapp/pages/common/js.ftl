@@ -1,13 +1,11 @@
 <#include "template.ftl">
-<#if cfg_develop>
 <script src="${cfg_base_js_base}/require-jquery.js"></script>
+<#--<script src="${cfg_base_js_base}/backbone.marionette.js"></script>-->
+<script src="${cfg_base_js_base}/bootstrap.js"></script>
 <#--<script src="${cfg_base_js_base}/jquery.json/jquery.json.js"></script>-->
 <script src="${cfg_base_js_base}/underscore.js"></script>
 <#--<script src="${cfg_base_js_base}/mustache.js"></script>-->
-<#else>
-<script src="${cfg_base_js}/lib/lib-pack.js"></script>
-</#if>
-<#-- requirejs配置  -->
+<#-- requirejs 配置  -->
 <script>
   clip = {
     cfg: {
@@ -21,12 +19,12 @@
   };
   require.config({
     paths: {
-      // 外部module
+      // 外部 module
       'css': '${cfg_base_css}',
       'module': '${cfg_base_js_module}',
       'text': '${cfg_base_js_base}/require-text',
       'order': '${cfg_base_js_base}/require-order',
-      // 业务module
+      // 业务 module
       // infrastructure
       // widgets & utilities
       'cookie': '${cfg_base_js_widget}/jquery.cookie',
@@ -40,6 +38,6 @@
 
   require(['module/index']);
 </script>
-<#--/ requirejs配置  -->
+<#--/ requirejs 配置  -->
 
-<#-- google统计 -->
+<#-- google 统计 -->

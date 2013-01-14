@@ -11,34 +11,34 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 /**
- * ½â¾ö@ResponseBody ·µ»ØÖµÂÒÂë£¬Í¬Ê±ÓÖ²»ÆÆ»µ@RequestBody×¢½âµÄ¹¦ÄÜ¡£
+ * è§£å†³@ResponseBody è¿”å›å€¼ä¹±ç ï¼ŒåŒæ—¶åˆä¸ç ´å@RequestBodyæ³¨è§£çš„åŠŸèƒ½ã€‚
  * <p>
- * Spring mvcÖĞ£¬¶ÔÓÚÓĞ×¢½âµÄ@ResponseBodyµÄ·µ»ØÖµ£¬¶¼ÓÉÊµÏÖHttpMessageConverter&lt;T&gt;½Ó¿ÚÀ´´¦Àí¡£
- * ÊµÏÖHttpMessageConverterµÄÊµÏÖÀà¸ù¾İ·ºĞÍTÀ´´¦ÀíÏàÓ¦µÄÖ°Ôğ£¬
- * Èçµ±TÎªStringÊ±£¬¾ÍÓÉStringHttpMessageConverterÀ´´¦Àí£¬
- * µ±TÎªBufferedImageÊ±£¬¾ÍÓÉBufferedImageHttpMessageConverterÀ´´¦Àí£¬
- * µ±TÎªObjectÊ±£¬¾ÍÓÉMappingJacksonHttpMessageConverterÀ´´¦Àí£¬
- * ¡­¡­
+ * Spring mvcä¸­ï¼Œå¯¹äºæœ‰æ³¨è§£çš„@ResponseBodyçš„è¿”å›å€¼ï¼Œéƒ½ç”±å®ç°HttpMessageConverter&lt;T&gt;æ¥å£æ¥å¤„ç†ã€‚
+ * å®ç°HttpMessageConverterçš„å®ç°ç±»æ ¹æ®æ³›å‹Tæ¥å¤„ç†ç›¸åº”çš„èŒè´£ï¼Œ
+ * å¦‚å½“Tä¸ºStringæ—¶ï¼Œå°±ç”±StringHttpMessageConverteræ¥å¤„ç†ï¼Œ
+ * å½“Tä¸ºBufferedImageæ—¶ï¼Œå°±ç”±BufferedImageHttpMessageConverteræ¥å¤„ç†ï¼Œ
+ * å½“Tä¸ºObjectæ—¶ï¼Œå°±ç”±MappingJacksonHttpMessageConverteræ¥å¤„ç†ï¼Œ
+ * â€¦â€¦
  * </p>
  * <p>
- * µ«ÊÇÔÚStringHttpMessageConverterÖĞ£¬·µ»ØµÄContent-TypeÍ·ÖĞÃ»ÓĞ¸½´ø²ÎÊıchartset=***£¬
- * µ¼ÖÂÔÚÄ³Ğ©ä¯ÀÀÆ÷ÖĞÏÔÊ¾utf-8Ê±³öÏÖ"?"µÄÂÒÂë¡£
+ * ä½†æ˜¯åœ¨StringHttpMessageConverterä¸­ï¼Œè¿”å›çš„Content-Typeå¤´ä¸­æ²¡æœ‰é™„å¸¦å‚æ•°chartset=***ï¼Œ
+ * å¯¼è‡´åœ¨æŸäº›æµè§ˆå™¨ä¸­æ˜¾ç¤ºutf-8æ—¶å‡ºç°"?"çš„ä¹±ç ã€‚
  * </p>
  * <p>
- * Ò»ÖÖ½â¾öÂÒÂëµÄ·½Ê½ÊÇ½«StringHttpMessageConverterÀàÉèÖÃ£¬
- * supportedMediaTypesÉèÖÃÎªtext/plain;charset=utf-8£¬
- * Õâ»áµ¼ÖÂÊ¹ÓÃ@RequestBodyµÄÊ±ºò³öÏÖ415(UNSUPPORTED_MEDIA_TYPE)´íÎó£¬
- * ÒòÎªÕâÖÖ·½Ê½ÉùÃ÷ÁËÖ»ÔÊĞímediaTypeÊÇtext/plainµÄÇé¿ö¡£
+ * ä¸€ç§è§£å†³ä¹±ç çš„æ–¹å¼æ˜¯å°†StringHttpMessageConverterç±»è®¾ç½®ï¼Œ
+ * supportedMediaTypesè®¾ç½®ä¸ºtext/plain;charset=utf-8ï¼Œ
+ * è¿™ä¼šå¯¼è‡´ä½¿ç”¨@RequestBodyçš„æ—¶å€™å‡ºç°415(UNSUPPORTED_MEDIA_TYPE)é”™è¯¯ï¼Œ
+ * å› ä¸ºè¿™ç§æ–¹å¼å£°æ˜äº†åªå…è®¸mediaTypeæ˜¯text/plainçš„æƒ…å†µã€‚
  * </p>
  * <p>
- * ´ËÀàµÄÔ­Àí¼´ÔÚStringHttpMessageConverterÍ·ÉÏ¸½´ø;chartset=utf-8²ÎÊı£¬µ«ÊÇ²»Ç¿ÖÆtext/plain
+ * æ­¤ç±»çš„åŸç†å³åœ¨StringHttpMessageConverterå¤´ä¸Šé™„å¸¦;chartset=utf-8å‚æ•°ï¼Œä½†æ˜¯ä¸å¼ºåˆ¶text/plain
  * </p>
  * <p>
- * <b>ÈçºÎÊ¹ÓÃ:</b><br/>
- * ÔÚspring-mvcÅäÖÃÎÄ¼şÖĞ½«Ô­À´µÄ&lt;mvc:annotation-driven/&gt;¸Ä³ÉÒÔÏÂ±êÇ©£º<br/>
+ * <b>å¦‚ä½•ä½¿ç”¨:</b><br/>
+ * åœ¨spring-mvcé…ç½®æ–‡ä»¶ä¸­å°†åŸæ¥çš„&lt;mvc:annotation-driven/&gt;æ”¹æˆä»¥ä¸‹æ ‡ç­¾ï¼š<br/>
  * &lt;mvc:annotation-driven&gt;<br/>
  * &lt;mvc:message-converters register-defaults="false"&gt;<br/>
- * &lt;bean class="´ËÀà"/&gt;<br/>
+ * &lt;bean class="æ­¤ç±»"/&gt;<br/>
  * &lt;/mvc:message-converters&gt;<br/>
  * &lt;/mvc:annotation-driven&gt;
  * </p>
@@ -52,7 +52,7 @@ public class Utf8CharsetHttpMessageConverter extends StringHttpMessageConverter 
     public static final Charset UTF8_CHAR_SET = Charset.forName("utf-8");
 
     /**
-     * Ç¿ÖÆ@ResponseBodyÍ·Îªcharset=utf-8
+     * å¼ºåˆ¶@ResponseBodyå¤´ä¸ºcharset=utf-8
      *
      * @param s             context
      * @param outputMessage outputMessage
@@ -62,18 +62,18 @@ public class Utf8CharsetHttpMessageConverter extends StringHttpMessageConverter 
     protected void writeInternal(String s, HttpOutputMessage outputMessage) throws IOException {
         MediaType mediaType = outputMessage.getHeaders().getContentType();
         MediaType mediaTypeForceCharset = new MediaType(
-                mediaType.getType(), mediaType.getSubtype(), UTF8_CHAR_SET
+            mediaType.getType(), mediaType.getSubtype(), UTF8_CHAR_SET
         );
         outputMessage.getHeaders().setContentType(mediaTypeForceCharset);
         super.writeInternal(s, outputMessage);
     }
 
     /**
-     * Ç¿ÖÆ@RequestBodyÎªutf-8±àÂë
+     * å¼ºåˆ¶@RequestBodyä¸ºutf-8ç¼–ç 
      *
      * @param clazz        clazz
      * @param inputMessage inputMessage
-     * @return ·µ»ØRequestBody
+     * @return è¿”å›RequestBody
      * @throws java.io.IOException
      */
     @Override
@@ -83,13 +83,13 @@ public class Utf8CharsetHttpMessageConverter extends StringHttpMessageConverter 
 
     /**
      * <p/>
-     * ¸¸ÀàÖĞ»ñÈ¡ÎÄ±¾³¤¶ÈµÄÊÇÓÃµÄ³£ÊıDEFAULT_CHARSET£¬¸ù¾İISO-8859-1¼ÆËãµÄ¡£
-     * Èç¹û²»ÖØĞ´´Ë·½·¨£¬»áµ¼ÖÂÓĞÖĞÎÄµÄÇé¿öÎÄ±¾±»½Ø¶Ï
+     * çˆ¶ç±»ä¸­è·å–æ–‡æœ¬é•¿åº¦çš„æ˜¯ç”¨çš„å¸¸æ•°DEFAULT_CHARSETï¼Œæ ¹æ®ISO-8859-1è®¡ç®—çš„ã€‚
+     * å¦‚æœä¸é‡å†™æ­¤æ–¹æ³•ï¼Œä¼šå¯¼è‡´æœ‰ä¸­æ–‡çš„æƒ…å†µæ–‡æœ¬è¢«æˆªæ–­
      * <p/>
      *
      * @param s           context
      * @param contentType mediaType
-     * @return ÎÄ±¾byte³¤¶È
+     * @return æ–‡æœ¬byteé•¿åº¦
      */
     @Override
     protected Long getContentLength(String s, MediaType contentType) {
