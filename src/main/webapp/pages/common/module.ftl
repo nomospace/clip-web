@@ -33,6 +33,7 @@
   <#if target!="">
     <base target="${target}"/>
   </#if>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
   <#include "function.ftl"/>
   <#include "css.ftl">
   <!--[if IE]>
