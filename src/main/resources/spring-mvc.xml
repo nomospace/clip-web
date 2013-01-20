@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/mvc
+                   http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean class="org.codehaus.jackson.map.ObjectMapper" id="jacksonObjectMapper" />
+
+    <bean class="org.springframework.util.MethodInvoker" id="jacksonObjectMapperInit">
+        <property name="targetObject" ref="jacksonObjectMapper"/>
+        <property name="targetMethod" value="configure"/>
+        <property name="arguments">
+            <array>
+                <value type="org.codehaus.jackson.map.DeserializationConfig$Feature">
+                    FAIL_ON_UNKNOWN_PROPERTIES
+                </value>
+                <value type="java.lang.Boolean">false</value>
+            </array>
+        </property>
+    </bean>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="false">
+            <!--解决utf-8编码下部分浏览器展示"?"乱码，同时不破坏原有的@RequestBody功能-->
+            <bean class="com.clip.web.utils.Utf8CharsetHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="objectMapper" ref="jacksonObjectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- freemarker的配置 -->
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/"/>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">10</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="datetime_format">yyyy-MM-dd</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="number_format">#.##</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- FreeMarker视图解析   如返回student。。在这里配置后缀名ftl和视图解析器。。-->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="requestContextAttribute" value="request"/>
+        <property name="prefix" value="/pages/"/>
+        <property name="order" value="1"/>
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="2"/>
+        <property name="prefix" value="/pages/"/>
+    </bean>
+
+    <!--<bean id="exceptionResolver"-->
+          <!--class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+      <!--<property name="exceptionMappings">-->
+          <!--<props>-->
+              <!--<prop key="java.lang.Exception">common/500</prop>-->
+              <!--<prop key="java.lang.Throwable">common/500</prop>-->
+              <!--<prop key="java.lang.RuntimeException">common/500</prop>-->
+              <!--<prop key="org.springframework.security.access.AccessDeniedException">common/403</prop>-->
+          <!--</props>-->
+      <!--</property>-->
+        <!--<property name="statusCodes">-->
+            <!--<props>-->
+                <!--<prop key="common/500">500</prop>-->
+                <!--<prop key="common/404">404</prop>-->
+                <!--<prop key="common/404">400</prop>-->
+                <!--<prop key="common/403">403</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+        <!--<property name="defaultErrorView" value="common/404"/>-->
+        <!--<property name="warnLogCategory" value="InternalServerError"/>-->
+    <!--</bean>-->
+
+    <!--suppress SpringModelInspection -->
+    <mvc:resources location="/static/" mapping="/static/**"/>
+
+    <mvc:interceptors>
+        <bean class="com.clip.web.interceptor.PermissionInterceptor"/>
+    </mvc:interceptors>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+</beans>
