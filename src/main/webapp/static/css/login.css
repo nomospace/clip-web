@@ -1,0 +1,94 @@
+.nav-login {
+  position: fixed;
+  left: 50%;
+  top: -165px;
+  width: 368px;
+  height: 150px;
+  margin-left: -174px;
+  padding: 5px 22px;
+  color: #999;
+  z-index: 4;
+  box-shadow: inset 0 -1px 0 #fff, 0 1px 6px rgba(0, 0, 0, .3);
+  border-bottom: 2px solid #efebda;
+  border-radius: 0 5px 5px 5px;
+  background: url(../images/tips_bg.gif) 0 0 repeat;
+}
+
+.nav-login h3 {
+  color: #666;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.login-head {
+  padding: 18px 0;
+  border-bottom: 1px solid #f6f4ee;
+}
+
+.login-connent {
+  padding: 2px 5px;
+}
+
+.login-connent ul {
+  display: block;
+}
+
+.login-connent li {
+  float: left;
+  margin-right: 5px;
+  list-style: none;
+}
+
+.login a {
+  display: block;
+  width: 38px;
+  height: 38px;
+  margin: 4px 0 0 10px;
+  text-indent: -9999em;
+  background: url(../images/login_icons.png) no-repeat;
+  opacity: 0.35;
+}
+
+.login a:hover {
+  opacity: 1;
+}
+
+.login.sina a {
+  background-position: 0 -38px;
+}
+
+.login.douban a {
+  background-position: 0 -76px;
+}
+
+.login.twitter a {
+  background-position: 0 -114px;
+}
+
+.login.renren a {
+  background-position: 0 -152px;
+}
+
+.login.instagram a {
+  background-position: 0 -190px;
+}
+
+.nav-login-close {
+  display: block;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background: url(../images/close.gif) no-repeat 0 0;
+  cursor: pointer;
+}
+
+.nav-login-close:hover {
+  background-position: 0 -30px
+}
+
+.nav-login-close:active {
+  background-position: 0 -60px
+}
