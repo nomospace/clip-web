@@ -231,18 +231,17 @@ public class JsonUtils {
         return null;
     }
 
-//    public static List toList(JSONArray array,Object root){
-//        List retVal=new ArrayList();
-//        if(CollectionUtils.isNotEmpty(array)){
+//    public static List toList(JSONArray array, Object root) {
+//        List retVal = new ArrayList();
+//        if (CollectionUtils.isNotEmpty(array)) {
 //            try {
-//                retVal=JSONArray.toList(array,root,emptyConfig);
+//                retVal = JSONArray.toList(array, root, emptyConfig);
 //            } catch (Exception e) {
-//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                e.printStackTrace();
 //            }
 //            return retVal;
 //        }
 //        return null;
-//
 //    }
 
     //    public static  List<T>  toList(JSONArray array){
