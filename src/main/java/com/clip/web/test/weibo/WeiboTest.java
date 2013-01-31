@@ -9,6 +9,8 @@ public class WeiboTest {
         String appKey = "2645619356";
         String appSecret = "e5f5d38eaa777f00924408686841b5dd";
 
+
+
 //        http://jeff-pluto-1874.iteye.com/blog/934977
 //        https://code.google.com/p/weibo4j/
 //        https://github.com/search?l=Java&q=weibo&ref=commandbar
