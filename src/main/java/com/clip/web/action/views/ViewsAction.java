@@ -15,7 +15,8 @@ public class ViewsAction {
     public ModelAndView index(final HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("index");
         HttpSession session = request.getSession();
-        System.out.println(session.getAttribute(CoreConstants.WEIBO_TOKEN));
+        String token = (String) session.getAttribute(CoreConstants.WEIBO_TOKEN);
+        mav.addObject("token", token);
         return mav;
     }
 
