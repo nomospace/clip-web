@@ -4,7 +4,7 @@
   <@html>
     <@body class="index-page">
     <!-- navbar -->
-    <div class='navbar'>
+    <div class='navbar navbar-googlebar navbar-inverse'>
       <div class='navbar-inner'>
         <div class='container'>
           <a class='brand' href='/'>ClipWeb</a>
