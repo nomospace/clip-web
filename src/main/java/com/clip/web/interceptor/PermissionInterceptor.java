@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class PermissionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     public void postHandle(

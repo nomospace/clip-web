@@ -9,7 +9,8 @@
 <script>
   clip = {
     cfg: {
-      version: '${cfg_version}'
+      version: '${cfg_version}',
+      token: '${token!""}'
     },
     url: {
       common: '${cfg_context_path}/common/'
