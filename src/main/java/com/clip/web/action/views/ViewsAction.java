@@ -1,16 +1,22 @@
-package com.clip.web.action;
+package com.clip.web.action.views;
 
+import com.clip.web.utils.CoreConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@Controller("hostViewsAction")
+@Controller("viewsAction")
 public class ViewsAction {
     @RequestMapping("/")
-    public ModelAndView index() {
+    public ModelAndView index(final HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("index");
+        HttpSession session = request.getSession();
+        String token = (String) session.getAttribute(CoreConstants.WEIBO_TOKEN);
+        mav.addObject("token", token);
         return mav;
     }
 

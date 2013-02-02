@@ -38,14 +38,14 @@
     </bean>
 
 
-    <!--hibernate的DAO用这个SessionFactory-->
+    <!--hibernate 的 DAO 用这个 SessionFactory-->
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>com.snda.sysdev.web.unioperation.model</value>
-                <value>com.snda.sysdev.web.core.model</value>
+                <value>com.clip.web.model</value>
+                <value>com.clip.core.model</value>
             </list>
         </property>
         <property name="hibernateProperties">
