@@ -1,4 +1,4 @@
-package com.clip.web.test.qqweibo;
+package com.clip.web.test.weibo.qq;
 
 import com.tencent.weibo.api.*;
 import com.tencent.weibo.oauthv2.OAuthV2;
@@ -62,7 +62,7 @@ public class TestOAuthV2AuthorizeCodeGrantAndAPI {
 
         //执行测试列表
         try {
-            new TestOAuthV2AuthorizeCodeGrantAndAPI().testList();
+//            new TestOAuthV2AuthorizeCodeGrantAndAPI().testList();
         } catch (Exception e) {
             e.printStackTrace();
         }

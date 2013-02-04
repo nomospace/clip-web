@@ -1,8 +1,8 @@
-package com.clip.web.test.weibo;
+package com.clip.web.test.weibo.sina;
 
+import com.clip.web.utils.Oauth4Sina;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import weibo4j.Oauth;
 import weibo4j.model.WeiboException;
 import weibo4j.util.BareBonesBrowserLaunch;
 
@@ -14,7 +14,7 @@ public class OAuth4Code {
     private static Log logger = LogFactory.getLog(OAuth4Code.class);
 
     public static void main(String[] args) throws WeiboException, IOException {
-        Oauth oauth = new Oauth();
+        Oauth4Sina oauth = new Oauth4Sina();
         BareBonesBrowserLaunch.openURL(oauth.authorize("code", args[0], args[1]));
         System.out.println(oauth.authorize("code", args[0], args[1]));
         System.out.print("Hit enter when it's done.[Enter]:");
