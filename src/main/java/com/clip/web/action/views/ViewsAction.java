@@ -1,9 +1,14 @@
 package com.clip.web.action.views;
 
 import com.clip.web.utils.CoreConstants;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import weibo4j.Oauth;
+import weibo4j.model.WeiboException;
+import weibo4j.http.AccessToken;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,12 +16,32 @@ import javax.servlet.http.HttpSession;
 
 @Controller("viewsAction")
 public class ViewsAction {
+    private static Log logger = LogFactory.getLog(ViewsAction.class);
+    private static Oauth oauth = new Oauth();
+    private static AccessToken weiboToken;
+
     @RequestMapping("/")
-    public ModelAndView index(final HttpServletRequest request) {
+    public ModelAndView index(final HttpServletRequest request) throws WeiboException {
         ModelAndView mav = new ModelAndView("index");
         HttpSession session = request.getSession();
-        String token = (String) session.getAttribute(CoreConstants.WEIBO_TOKEN);
-        mav.addObject("token", token);
+        if (weiboToken == null) {
+            String code = (String) session.getAttribute(CoreConstants.WEIBO_CODE);
+            if (code != null) {
+                try {
+                    weiboToken = oauth.getAccessTokenByCode(code);
+                    mav.addObject("weiboToken", weiboToken);
+                    System.out.println(weiboToken);
+                } catch (WeiboException e) {
+                    if (401 == e.getStatusCode()) {
+                        logger.info("Unable to get the access token.");
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else {
+            mav.addObject("weiboToken", weiboToken);
+        }
         return mav;
     }
 

@@ -36,5 +36,5 @@ public class CoreConstants {
     public static final String NOT_AVAILABLE = "N/A";
     public static final String ASSERTION = "assertion";
 
-    public static final String WEIBO_TOKEN = "weibo_token";
+    public static final String WEIBO_CODE = "weibo_code";
 }
