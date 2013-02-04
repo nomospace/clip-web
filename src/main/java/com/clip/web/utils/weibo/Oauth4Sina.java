@@ -1,5 +1,6 @@
-package com.clip.web.utils;
+package com.clip.web.utils.weibo;
 
+import com.clip.web.utils.SysProperties;
 import weibo4j.Oauth;
 import weibo4j.http.AccessToken;
 import weibo4j.model.PostParameter;
