@@ -6,16 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import weibo4j.model.WeiboException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller("viewsAction")
 public class ViewsAction {
 
     @RequestMapping("/")
-    public ModelAndView index() throws WeiboException {
+    public ModelAndView index(final HttpServletRequest request) throws WeiboException {
         ModelAndView mav = new ModelAndView("index");
         TokenUtils tokenUtils = new TokenUtils();
-        mav.addObject("token", tokenUtils.getToken());
+        mav.addObject("token", tokenUtils.getToken(request));
         return mav;
     }
 
