@@ -36,7 +36,7 @@ public class CoreConstants {
     public static final String NOT_AVAILABLE = "N/A";
     public static final String ASSERTION = "assertion";
 
-    public static final String WEIBO_TYPE = "sina_type";
+    public static final String WEIBO_TYPE = "weibo_type";
     public static final String SINA_WEIBO = "sina";
     public static final String QQ_WEIBO = "qq";
     public static final String SINA_WEIBO_CODE = "sina_weibo_code";

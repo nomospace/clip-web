@@ -1,6 +1,7 @@
 package com.clip.web.utils.weibo;
 
 import com.clip.web.utils.CoreConstants;
+import com.tencent.weibo.oauthv2.OAuthV2Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import weibo4j.model.WeiboException;
@@ -13,15 +14,15 @@ public class TokenUtils {
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     private String token;
-    private HttpServletRequest request;
 
-    public String getToken() {
+    public String getToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
-        String code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
-        if (token == null) {
-            if (code != null) {
-                if (type.equals(CoreConstants.SINA_WEIBO)) {
+        String code;
+        if (token == null && type != null) {
+            if (type.equals(CoreConstants.SINA_WEIBO)) {
+                code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
+                if (code != null) {
                     try {
                         token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
                         System.out.println(token);
@@ -32,8 +33,22 @@ public class TokenUtils {
                             e.printStackTrace();
                         }
                     }
-                } else if (type.equals(CoreConstants.QQ_WEIBO)) {
-                    token = oauth4Qq.getAccessToken();
+                }
+            } else if (type.equals(CoreConstants.QQ_WEIBO)) {
+                code = (String) session.getAttribute(CoreConstants.QQ_WEIBO_CODE);
+                OAuthV2Client.parseAuthorization(code, oauth4Qq);
+                if (oauth4Qq.getStatus() == 2) {
+                    logger.info("Get Authorization Code failed!");
+                } else {
+                    oauth4Qq.setGrantType("authorize_code");
+                    try {
+                        System.out.println(OAuthV2Client.accessToken(oauth4Qq));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//                    oauth4Qq.setAuthorizeCode(code);
+//                    token = oauth4Qq.getAccessToken();
+//                    System.out.println(token);
                 }
             }
         }
