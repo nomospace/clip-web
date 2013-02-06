@@ -13,7 +13,7 @@ public class TokenUtils {
     private static Log logger = LogFactory.getLog(TokenUtils.class);
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
-    private String token;
+    protected static String token;
 
     public String getToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -25,7 +25,6 @@ public class TokenUtils {
                 if (code != null) {
                     try {
                         token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
-                        System.out.println(token);
                     } catch (WeiboException e) {
                         if (401 == e.getStatusCode()) {
                             logger.info("Unable to get the access token.");
@@ -42,13 +41,10 @@ public class TokenUtils {
                 } else {
                     oauth4Qq.setGrantType("authorize_code");
                     try {
-                        System.out.println(OAuthV2Client.accessToken(oauth4Qq));
+                        token = oauth4Qq.getAccessToken();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-//                    oauth4Qq.setAuthorizeCode(code);
-//                    token = oauth4Qq.getAccessToken();
-//                    System.out.println(token);
                 }
             }
         }

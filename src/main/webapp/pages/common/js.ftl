@@ -12,10 +12,10 @@
       version: '${cfg_version}',
       weiboToken: {
       <#if weiboToken?exists>
-        accessToken: '${weiboToken.accessToken!""}',
-        expireIn: '${weiboToken.expireIn!""}',
-        refreshToken: '${weiboToken.refreshToken!""}',
-        uid: '${weiboToken.uid!""}'
+        accessToken: '${weiboToken!""}'
+        <#--expireIn: '${weiboToken.expireIn!""}',-->
+        <#--refreshToken: '${weiboToken.refreshToken!""}',-->
+        <#--uid: '${weiboToken.uid!""}'-->
       </#if>
       }
     },

@@ -16,7 +16,7 @@ public class ViewsAction {
     public ModelAndView index(final HttpServletRequest request) throws WeiboException {
         ModelAndView mav = new ModelAndView("index");
         TokenUtils tokenUtils = new TokenUtils();
-        mav.addObject("token", tokenUtils.getToken(request));
+        mav.addObject("weiboToken", tokenUtils.getToken(request));
         return mav;
     }
 
