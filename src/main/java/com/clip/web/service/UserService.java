@@ -11,8 +11,8 @@ public class UserService {
     @Resource
     private UserDao userDao;
 
-    public User getUser(String type, String uid) {
-        return userDao.getUser(type, uid);
+    public User getUser(String type, String token) {
+        return userDao.getUser(type, token);
     }
 
     public User addUser(String username) {

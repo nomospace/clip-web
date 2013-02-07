@@ -1,5 +1,6 @@
 package com.clip.web.action.views;
 
+import com.clip.web.model.User;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.weibo.TokenUtils;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,12 @@ public class ViewsAction {
     public ModelAndView index(final HttpServletRequest request) throws WeiboException {
         ModelAndView mav = new ModelAndView("index");
         TokenUtils tokenUtils = new TokenUtils();
-        mav.addObject("weiboToken", tokenUtils.getToken(request));
-        System.out.println(tokenUtils.getUserId());
+        String token = tokenUtils.getToken(request);
+        mav.addObject("weiboToken", token);
+        if (token != null) {
+            User user = userService.getUser(tokenUtils.getTokenType(), token);
+            System.out.println(user);
+        }
         return mav;
     }
 
