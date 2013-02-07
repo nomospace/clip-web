@@ -1,5 +1,6 @@
 package com.clip.web.action.api;
 
+import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.Oauth4Qq;
 import com.clip.web.utils.weibo.Oauth4Sina;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import weibo4j.model.WeiboException;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,9 @@ import java.io.IOException;
 
 @Controller("apiAction")
 public class ApiAction {
+    @Resource
+    private UserService userService;
+
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
 
@@ -51,6 +56,11 @@ public class ApiAction {
         }
         session.setAttribute(CoreConstants.WEIBO_TYPE, type);
         response.sendRedirect("/");
+    }
+
+    @RequestMapping("/user/add/{username}")
+    public void addUser(@PathVariable("username") String username, final HttpServletResponse response) {
+        userService.addUser(username);
     }
 
 }
