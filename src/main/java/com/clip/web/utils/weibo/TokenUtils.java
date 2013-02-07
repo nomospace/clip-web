@@ -14,6 +14,8 @@ public class TokenUtils {
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     protected static String token;
+    protected static AccessToken4Sina accessToken;
+    protected static String userId;
 
     public String getToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -24,7 +26,12 @@ public class TokenUtils {
                 code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
                 if (code != null) {
                     try {
-                        token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
+                        accessToken = (AccessToken4Sina) oauth4Sina.getAccessTokenByCode(code);
+                        userId = accessToken.getUserId();
+                        System.out.println("userId is null?" + userId);
+                        token = "1";
+//                        token = accessToken.getAccessToken();
+//                        token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
                     } catch (WeiboException e) {
                         if (401 == e.getStatusCode()) {
                             logger.info("Unable to get the access token.");
@@ -49,6 +56,10 @@ public class TokenUtils {
             }
         }
         return token;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
 }

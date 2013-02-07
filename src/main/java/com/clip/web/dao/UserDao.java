@@ -13,9 +13,14 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         super(User.class);
     }
 
-    public User getUser(String username) {
+    public User getUser(String type, String uid) {
         Criteria criteria = getSession().createCriteria(User.class);
-        criteria.add(Restrictions.eq("username", username));
+        // get one and update one
+        if (type == "sina") {
+            criteria.add(Restrictions.eq("sina_weibo_uid", uid));
+        } else if (type == "qq") {
+            criteria.add(Restrictions.eq("qq_weibo_uid", uid));
+        }
         return (User) criteria.list().get(0);
     }
 
