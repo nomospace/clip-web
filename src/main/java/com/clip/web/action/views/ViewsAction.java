@@ -20,6 +20,13 @@ public class ViewsAction {
         return mav;
     }
 
+    @RequestMapping("/setting")
+    public ModelAndView settings() throws WeiboException {
+        ModelAndView mav = new ModelAndView("setting");
+        mav.addObject("xxx", "xxx");
+        return mav;
+    }
+
     @RequestMapping("/404")
     public String to400(HttpServletResponse response) {
         response.setStatus(404);

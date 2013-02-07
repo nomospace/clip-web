@@ -10,7 +10,7 @@
   z-index: 4;
   box-shadow: inset 0 -1px 0 #fff, 0 1px 6px rgba(0, 0, 0, .3);
   border-bottom: 2px solid #efebda;
-  border-radius: 0 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   background: url(../images/tips_bg.gif) 0 0 repeat;
 }
 
