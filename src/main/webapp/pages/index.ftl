@@ -5,10 +5,17 @@
     <@body class="index-page">
     <!-- wrapper -->
     <div class='wrapper'>
-      <div class="alert alert-info">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        为了保护用户的隐私，请先登录
-      </div>
+      <#if !isLogin??&&fromHome??>
+        <div class="alert alert-info">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          为了保护用户的隐私，请先登录
+        </div>
+      </#if>
+      <#if user??>
+        <div class="alert alert-info">
+          您已登录 ${user.username!""}
+        </div>
+      </#if>
       <!-- Main container. -->
       <div role="main" id="main"></div>
       <div id="J_login" class="nav-login" style="top: 45px;">

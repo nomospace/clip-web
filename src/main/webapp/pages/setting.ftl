@@ -21,7 +21,7 @@
             <div class="control-group">
               <label class="control-label">clip_id：</label>
               <div class="controls">
-                <span class="help-inline">1234</span>
+                <span class="help-inline">${user.id!""}</span>
               </div>
             </div>
             <div class="control-group">

@@ -98,7 +98,7 @@
           <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li>
-              <a href="/setup">设置</a>
+              <a href="/setting">设置</a>
             </li>
             <li>
               <a href="/notifications">提醒</a>
@@ -107,7 +107,7 @@
               <a href="/help">帮助</a>
             </li>
             <li>
-              <a href="/signout">退出</a>
+              <a href="/logout">退出</a>
             </li>
           </ul>
         </li>

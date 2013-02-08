@@ -11,6 +11,7 @@ import weibo4j.model.WeiboException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller("viewsAction")
 public class ViewsAction {
@@ -25,20 +26,33 @@ public class ViewsAction {
         mav.addObject("weiboToken", token);
         if (token != null) {
             User user = userService.getUser(tokenUtils.getTokenType(), token);
-            System.out.println(user);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("userInfo", user);
+                mav.addObject("user", user);
+            }
         }
         return mav;
     }
 
     @RequestMapping("/home")
     public ModelAndView home(final HttpServletRequest request) throws WeiboException {
-        return this.index(request);
+        ModelAndView mav = this.index(request);
+        mav.addObject("isLogin", false);
+        mav.addObject("fromHome", true);
+        return mav;
     }
 
     @RequestMapping("/setting")
-    public ModelAndView settings() throws WeiboException {
+    public ModelAndView settings(final HttpServletRequest request) throws WeiboException {
         ModelAndView mav = new ModelAndView("setting");
-        mav.addObject("xxx", "xxx");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("userInfo");
+        if (user == null) {
+            mav = this.index(request);
+        } else {
+            mav.addObject("user", user);
+        }
         return mav;
     }
 

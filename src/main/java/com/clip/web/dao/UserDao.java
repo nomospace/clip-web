@@ -21,7 +21,7 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         } else if (type == "qq") {
             criteria.add(Restrictions.eq("qq_weibo_token", token));
         }
-        return (User) criteria.list().get(0);
+        return (User) criteria.uniqueResult();
     }
 
     public User addUser(String username) {
