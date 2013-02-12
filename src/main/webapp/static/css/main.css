@@ -1,9 +1,17 @@
 @import "login.css";
 
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  font-size: 14px;
+  z-index: 9999;
+}
+
 .navbar-inner {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  border-radius: 0;
+  border-radius: 0 !important;
 }
 
 .fork2github {
@@ -16,9 +24,11 @@
 
 .wrapper {
   min-height: 100px;
+  margin: 70px 10px 0;
 }
 
 .footer {
+  width: 100%;
   text-align: center;
 }
 

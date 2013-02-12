@@ -1,4 +1,4 @@
-package com.clip.web.test.weibo;
+package com.clip.web.test.weibo.sina;
 
 public class WeiboTest {
     public static void main(String[] args) {
