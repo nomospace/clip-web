@@ -1,6 +1,7 @@
 package com.clip.web.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 
@@ -17,6 +18,7 @@ public class User {
     private String sina_weibo_uid;
     private String qq_weibo_token;
     private String qq_weibo_uid;
+    private Long register_date;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -119,4 +121,11 @@ public class User {
         this.qq_weibo_uid = qq_weibo_uid;
     }
 
+    public Long getRegister_date() {
+        return register_date;
+    }
+
+    public void setRegister_date(Long register_date) {
+        this.register_date = register_date;
+    }
 }

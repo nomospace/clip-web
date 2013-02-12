@@ -15,7 +15,11 @@ public class UserService {
         return userDao.getUser(type, token);
     }
 
-    public User addUser(String username) {
-        return userDao.addUser(username);
+    public User addUser(String type, String token) {
+        return userDao.addUser(type, token);
+    }
+
+    public Boolean updateUsername(Integer id, String username) {
+        return userDao.updateUsername(id, username);
     }
 }

@@ -1,9 +1,11 @@
 package com.clip.web.action.api;
 
+import com.clip.web.model.User;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.Oauth4Qq;
 import com.clip.web.utils.weibo.Oauth4Sina;
+import com.clip.web.utils.weibo.TokenUtils;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,6 @@ public class ApiAction {
 
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
-
 
     @RequestMapping("/connect/sina")
     public void connectSina(final HttpServletResponse response) throws WeiboException, IOException {
@@ -58,9 +59,16 @@ public class ApiAction {
         response.sendRedirect("/");
     }
 
-    @RequestMapping("/user/add/{username}")
-    public void addUser(@PathVariable("username") String username, final HttpServletResponse response) {
-        userService.addUser(username);
+    @RequestMapping("/updateUsername/{username}")
+    public Boolean updateUsername(@PathVariable("username") String username, final HttpServletRequest request) {
+        TokenUtils tokenUtils = new TokenUtils();
+        String token = tokenUtils.getToken(request);
+        User user = userService.getUser(CoreConstants.WEIBO_TYPE, token);
+        Boolean success = false;
+        if (user != null) {
+            success = userService.updateUsername(user.getId(), username);
+        }
+        return success;
     }
 
 }
