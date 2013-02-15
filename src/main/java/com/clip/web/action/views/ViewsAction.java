@@ -30,6 +30,8 @@ public class ViewsAction {
                 HttpSession session = request.getSession();
                 session.setAttribute("userInfo", user);
                 mav.addObject("user", user);
+            } else {
+                userService.addUser(tokenUtils.getTokenType(), token);
             }
         }
         return mav;

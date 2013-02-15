@@ -2,6 +2,8 @@ package com.clip.web.test;
 
 import org.jsoup.Jsoup;
 
+import java.util.Date;
+
 public class MainTest {
     public static void main(String[] args) {
         System.out.println("Hello world!");
@@ -9,5 +11,7 @@ public class MainTest {
                 + "<body><p>Parsed HTML into a doc.</p></body></html>";
 
         System.out.println(Jsoup.parse(html));
+        Date date = new Date();
+        System.out.println(date.getTime());
     }
 }
