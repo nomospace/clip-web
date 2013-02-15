@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Ö§³Ö Hibernate4 µÄ²Ù×÷
+ * æ”¯æŒ Hibernate4 çš„æ“ä½œ
  */
 @Transactional(propagation = Propagation.REQUIRED)
 public class BaseHibernateDao4<E, PK extends Serializable> implements BaseHibernateDaoInterface<E, PK> {
@@ -121,7 +121,7 @@ public class BaseHibernateDao4<E, PK extends Serializable> implements BaseHibern
     }
 
     /**
-     * Ö§³Ö´ø id µÄ¶ÔÏóÊı¾İ¸üĞÂ£¬²»»áÒò¶ÔÏó²»ÊÇ get ³öÀ´µÄ¶ø²»¿É¸üĞÂ£¬¶ÔÏó¿É×Ô¼º´´½¨²¢ÉèÈë id ºó¸üĞÂ
+     * æ”¯æŒå¸¦ id çš„å¯¹è±¡æ•°æ®æ›´æ–°ï¼Œä¸ä¼šå› å¯¹è±¡ä¸æ˜¯ get å‡ºæ¥çš„è€Œä¸å¯æ›´æ–°ï¼Œå¯¹è±¡å¯è‡ªå·±åˆ›å»ºå¹¶è®¾å…¥ id åæ›´æ–°
      *
      * @param object
      * @return
@@ -131,9 +131,9 @@ public class BaseHibernateDao4<E, PK extends Serializable> implements BaseHibern
         Object pkId = null;
         try {
             pkId = getPKValueFromPersistentObject(object);
-            if (pkId != null) { //Èç¹ûÃ»Ö÷¼ü id Ôò²åÒ»Ìõ¼ÇÂ¼
+            if (pkId != null) { //å¦‚æœæ²¡ä¸»é”® id åˆ™æ’ä¸€æ¡è®°å½•
                 E entity = get((PK) pkId);
-                //¸ÄÔì¹ıµÄ·Ç null µÄº¯Êı£¬×¢Òâ source ºÍ dest µÄÇø±ğ
+                //æ”¹é€ è¿‡çš„é null çš„å‡½æ•°ï¼Œæ³¨æ„ source å’Œ dest çš„åŒºåˆ«
                 if (entity != null) {
                     BeanUtilsNoNull.copyProperties(object /*org*/, entity /*dest*/);
                 }
@@ -156,7 +156,7 @@ public class BaseHibernateDao4<E, PK extends Serializable> implements BaseHibern
 
 
     /**
-     * Ìõ¼şÉ¾³ı Ä¿Ç°Ö»ÄÜÏÈ²éÑ¯ÔÙÉ¾³ı Ã¿ºÃµÄ½â¾ö°ì·¨
+     * æ¡ä»¶åˆ é™¤ ç›®å‰åªèƒ½å…ˆæŸ¥è¯¢å†åˆ é™¤ æ¯å¥½çš„è§£å†³åŠæ³•
      *
      * @param hql
      * @param params
@@ -235,7 +235,7 @@ public class BaseHibernateDao4<E, PK extends Serializable> implements BaseHibern
                 if (obj != null) {
                     session.delete(obj);
                 } else {
-                    log.warn("ÎŞ·¨É¾³ıÖ÷¼üÎª:" + ids[i] + "µÄ" + clazz.getName());
+                    log.warn("æ— æ³•åˆ é™¤ä¸»é”®ä¸º:" + ids[i] + "çš„" + clazz.getName());
                 }
             }
         } catch (Exception e) {
@@ -326,7 +326,7 @@ public class BaseHibernateDao4<E, PK extends Serializable> implements BaseHibern
             Object key = entry.getKey();
             Object value = entry.getValue();
             if (value.getClass().getName().startsWith("[") && value.getClass().getName().length() == 2) {
-                //½«ÔªÉúÀàÊı×é×ªÎª¶ÔÏóÊı×é  primitive type
+                //å°†å…ƒç”Ÿç±»æ•°ç»„è½¬ä¸ºå¯¹è±¡æ•°ç»„  primitive type
                 if (value instanceof long[]) {
                     long[] p = (long[]) value;
                     Object[] objs = new Object[p.length];

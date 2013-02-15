@@ -6,6 +6,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public class UserDao extends BaseHibernateDao4<User, Integer> {
 
@@ -24,10 +26,29 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return (User) criteria.uniqueResult();
     }
 
-    public User addUser(String username) {
+    public User addUser(String type, String token) {
         User user = new User();
-        user.setUsername(username);
+        if (type == "sina") {
+            user.setSina_weibo_token(token);
+        } else if (type == "qq") {
+            user.setQq_weibo_token(token);
+        }
+        Date date = new Date();
+        user.setRegister_date(date.getTime());
         return autoSave(user);
+    }
+
+    public Boolean updateUsername(Integer id, String username) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        User user = (User) criteria.uniqueResult();
+        Boolean success = false;
+        if (user != null) {
+            user.setUsername(username);
+            autoSave(user);
+            success = true;
+        }
+        return success;
     }
 
 }
