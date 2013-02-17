@@ -4,6 +4,7 @@ import com.clip.core.base.dao.BaseHibernateDao4;
 import com.clip.web.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -17,20 +18,21 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
 
     public User getUser(String type, String token) {
         Criteria criteria = getSession().createCriteria(User.class);
-        // get one and update one
-        if (type == "sina") {
-            criteria.add(Restrictions.eq("sina_weibo_token", token));
-        } else if (type == "qq") {
-            criteria.add(Restrictions.eq("qq_weibo_token", token));
+        SimpleExpression tokenExpression = null;
+        if (type.equals("sina")) {
+            tokenExpression = Restrictions.eq("sina_weibo_token", token);
+        } else if (type.equals("qq")) {
+            tokenExpression = Restrictions.eq("qq_weibo_token", token);
         }
+        criteria.add(tokenExpression);
         return (User) criteria.uniqueResult();
     }
 
     public User addUser(String type, String token) {
         User user = new User();
-        if (type == "sina") {
+        if (type.equals("sina")) {
             user.setSina_weibo_token(token);
-        } else if (type == "qq") {
+        } else if (type.equals("qq")) {
             user.setQq_weibo_token(token);
         }
         Date date = new Date();

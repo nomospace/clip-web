@@ -2,6 +2,7 @@ package com.clip.web.action.views;
 
 import com.clip.web.model.User;
 import com.clip.web.service.UserService;
+import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.TokenUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,15 @@ public class ViewsAction {
         TokenUtils tokenUtils = new TokenUtils();
         String token = tokenUtils.getToken(request);
         mav.addObject("weiboToken", token);
-        if (token != null) {
-            User user = userService.getUser(tokenUtils.getTokenType(), token);
+        String tokenType = tokenUtils.getTokenType(request);
+        if (token != null && tokenType != null) {
+            User user = userService.getUser(tokenType, token);
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("userInfo", user);
                 mav.addObject("user", user);
             } else {
-                userService.addUser(tokenUtils.getTokenType(), token);
+                userService.addUser(tokenType, token);
             }
         }
         return mav;

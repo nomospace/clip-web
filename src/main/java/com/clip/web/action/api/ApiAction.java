@@ -7,9 +7,11 @@ import com.clip.web.utils.weibo.Oauth4Qq;
 import com.clip.web.utils.weibo.Oauth4Sina;
 import com.clip.web.utils.weibo.TokenUtils;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import weibo4j.model.WeiboException;
 
 import javax.annotation.Resource;
@@ -60,15 +62,14 @@ public class ApiAction {
     }
 
     @RequestMapping("/updateUsername/{username}")
-    public Boolean updateUsername(@PathVariable("username") String username, final HttpServletRequest request) {
+    @ResponseBody
+    public String updateUsername(@PathVariable("username") String username, final HttpServletRequest request) {
+        HttpSession session = request.getSession();
         TokenUtils tokenUtils = new TokenUtils();
         String token = tokenUtils.getToken(request);
-        User user = userService.getUser(CoreConstants.WEIBO_TYPE, token);
-        Boolean success = false;
-        if (user != null) {
-            success = userService.updateUsername(user.getId(), username);
-        }
-        return success;
+        User user = userService.getUser(tokenUtils.getTokenType(request), token);
+        session.setAttribute("userInfo", user);
+        return userService.updateUsername(user.getId(), username).toString();
     }
 
 }
