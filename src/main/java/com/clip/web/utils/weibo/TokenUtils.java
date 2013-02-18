@@ -4,6 +4,7 @@ import com.clip.web.utils.CoreConstants;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import weibo4j.Account;
 import weibo4j.model.WeiboException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +61,18 @@ public class TokenUtils {
     public String getTokenType(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+    }
+
+    public String getUid() {
+        Account account = new Account();
+        account.client.setToken(token);
+        String uid = null;
+        try {
+            uid = account.getUid().toString();
+        } catch (WeiboException e) {
+            e.printStackTrace();
+        }
+        return uid;
     }
 
 }

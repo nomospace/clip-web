@@ -17,8 +17,8 @@ public class UserService {
         return userDao.getUser(type, token);
     }
 
-    public User addUser(String type, String token) {
-        return userDao.addUser(type, token);
+    public User addUser(String type, String token, String uid) {
+        return userDao.addUser(type, token, uid);
     }
 
     public JSONObject updateUsername(Integer id, String username) {

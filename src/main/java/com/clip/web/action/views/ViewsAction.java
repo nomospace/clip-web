@@ -33,7 +33,8 @@ public class ViewsAction {
                 session.setAttribute("userInfo", user);
                 mav.addObject("user", user);
             } else {
-                userService.addUser(tokenType, token);
+                String uid = tokenUtils.getUid();
+                userService.addUser(tokenType, token, uid);
             }
         }
         return mav;

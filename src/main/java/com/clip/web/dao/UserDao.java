@@ -28,12 +28,14 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return (User) criteria.uniqueResult();
     }
 
-    public User addUser(String type, String token) {
+    public User addUser(String type, String token, String uid) {
         User user = new User();
         if (type.equals("sina")) {
             user.setSina_weibo_token(token);
+            user.setSina_weibo_uid(uid);
         } else if (type.equals("qq")) {
             user.setQq_weibo_token(token);
+            user.setQq_weibo_uid(uid);
         }
         Date date = new Date();
         user.setRegister_date(date.getTime());
