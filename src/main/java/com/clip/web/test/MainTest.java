@@ -13,5 +13,6 @@ public class MainTest {
         System.out.println(Jsoup.parse(html));
         Date date = new Date();
         System.out.println(date.getTime());
+        System.out.println("中文");
     }
 }

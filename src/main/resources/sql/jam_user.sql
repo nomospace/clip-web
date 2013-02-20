@@ -10,9 +10,9 @@ CREATE TABLE `jam_user` (
   `description` varchar(255) default NULL,
   `privacy` tinyint(4) default NULL,
   `remind` tinyint(4) default NULL,
-  `sina_weibo_uid` int(11) default NULL,
+  `sina_weibo_uid` varchar(20) default NULL,
   `sina_weibo_token` varchar(50) default NULL,
-  `qq_weibo_uid` varchar(255) default NULL,
+  `qq_weibo_uid` varchar(20) default NULL,
   `qq_weibo_token` varchar(50) default NULL,
   `register_date` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)

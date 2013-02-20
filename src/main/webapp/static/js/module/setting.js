@@ -4,11 +4,20 @@ define(function() {
   $usernameBtn.click(function(e) {
     var username = $.trim($username.val());
     if (username) {
-      $.getJSON('/updateUsername/' + username).done(function(result) {
-        if (result.success) {
-          alert('设置成功');
-        }
-      });
+      $.ajax({
+        'url': '/updateUsername',
+        'data': {
+          'username': username
+        },
+        'type': 'post',
+        'dataType': 'json'
+      }).done(function(result) {
+          if (result.success) {
+            alert('U make it!');
+          } else {
+            alert(result.message);
+          }
+        });
     }
   });
 });
