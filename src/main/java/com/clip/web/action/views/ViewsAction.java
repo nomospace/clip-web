@@ -1,8 +1,8 @@
 package com.clip.web.action.views;
 
+import com.clip.web.action.CommonAction;
 import com.clip.web.model.User;
 import com.clip.web.service.UserService;
-import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.TokenUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller("viewsAction")
-public class ViewsAction {
+public class ViewsAction extends CommonAction {
     @Resource
     private UserService userService;
 

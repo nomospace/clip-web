@@ -55,4 +55,29 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return success;
     }
 
+    public Boolean updateEmail(Integer id, String email) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        User user = (User) criteria.uniqueResult();
+        Boolean success = false;
+        if (user != null) {
+            user.setEmail(email);
+            autoSave(user);
+            success = true;
+        }
+        return success;
+    }
+
+    public Boolean updateRemind(Integer id, Integer remind) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        User user = (User) criteria.uniqueResult();
+        Boolean success = false;
+        if (user != null) {
+            user.setRemind(remind);
+            autoSave(user);
+            success = true;
+        }
+        return success;
+    }
 }

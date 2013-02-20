@@ -33,7 +33,7 @@
             <div class="control-group">
               <label class="control-label">电子邮件：</label>
               <div class="controls">
-                <input type="text">
+                <input type="text" id="J_email" value="${user.email!""}">
               </div>
               <div class="controls">
                 <span class="help-block">定期发送更新好的PDF版本和历史上的今天提醒<br>(建议把 help@clip.me 添加到你的邮件联系人中)</span>
@@ -41,7 +41,7 @@
             </div>
             <div class="control-group">
               <div class="controls">
-                <button type="submit" class="btn btn-primary">保存设置</button>
+                <button type="submit" class="btn btn-primary" id="J_email_btn">保存设置</button>
               </div>
             </div>
           </fieldset>
@@ -49,23 +49,17 @@
             <legend>邮件提醒</legend>
             <span class="help-block">clip 会通过 email 提醒一些与你有关的事情</span>
             <div class="control-group">
-              <label class="control-label">注册时间：</label>
-              <div class="controls">
-                <span class="help-inline">2013-02-06 16:31:52</span>
-              </div>
-            </div>
-            <div class="control-group">
               <label class="control-label">历史上的今天：</label>
-              <div class="controls">
+              <div class="controls" id="J_remind">
                 <label class="radio">
-                  <input type="radio" name="today_in_history" value="option1" checked>接受</label>
+                  <input type="radio" name="today_in_history" value="1" <#if !user.remind??||user.remind==1>checked</#if>>接受</label>
                 <label class="radio">
-                  <input type="radio" name="today_in_history" value="option2">不接受</label>
+                  <input type="radio" name="today_in_history" value="0" <#if user.remind??&&user.remind==0>checked</#if>>不接受</label>
               </div>
             </div>
             <div class="control-group">
               <div class="controls">
-                <button type="submit" class="btn btn-primary">修改提醒设置</button>
+                <button type="submit" class="btn btn-primary" id="J_remind_btn">修改提醒设置</button>
               </div>
             </div>
           </fieldset>

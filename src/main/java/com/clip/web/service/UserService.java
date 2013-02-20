@@ -28,4 +28,20 @@ public class UserService {
         JSONObject result = new ReturnBean(true, null, dataJson).toJSONObject();
         return result;
     }
+
+    public JSONObject updateEmail(Integer id, String email) {
+        Boolean success = userDao.updateEmail(id, email);
+        JSONObject resultJson = JSONObject.fromObject(success);
+        JSONObject dataJson = resultJson.optJSONObject("data");
+        JSONObject result = new ReturnBean(true, null, dataJson).toJSONObject();
+        return result;
+    }
+
+    public JSONObject updateRemind(Integer id, Integer remind) {
+        Boolean success = userDao.updateRemind(id, remind);
+        JSONObject resultJson = JSONObject.fromObject(success);
+        JSONObject dataJson = resultJson.optJSONObject("data");
+        JSONObject result = new ReturnBean(true, null, dataJson).toJSONObject();
+        return result;
+    }
 }

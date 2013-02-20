@@ -1,12 +1,12 @@
 package com.clip.web.action.api;
 
 import com.clip.core.bean.ReturnBean;
+import com.clip.web.action.CommonAction;
 import com.clip.web.model.User;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.Oauth4Qq;
 import com.clip.web.utils.weibo.Oauth4Sina;
-import com.clip.web.utils.weibo.TokenUtils;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 @Controller("apiAction")
-public class ApiAction {
+public class ApiAction extends CommonAction {
     @Resource
     private UserService userService;
 
@@ -69,17 +69,19 @@ public class ApiAction {
     @RequestMapping("/updateUsername")
     @ResponseBody
     public String updateUsername(@RequestParam(value = "username") String username, final HttpServletRequest request) throws UnsupportedEncodingException {
-        HttpSession session = request.getSession();
-        TokenUtils tokenUtils = new TokenUtils();
-        String token = tokenUtils.getToken(request);
-        User user = userService.getUser(tokenUtils.getTokenType(request), token);
-        session.setAttribute("userInfo", user);
-        HashMap map = this.checkUsername(username);
-        username = username.toLowerCase();
         String result;
+        username = username.toLowerCase();
+        HashMap map = this.checkUsername(username);
         Boolean valid = (Boolean) map.get("valid");
         if (valid) {
-            result = userService.updateUsername(user.getId(), username).toString();
+            User user = this.getUser(request);
+            JSONObject jsonObject = userService.updateUsername(user.getId(), username);
+            Boolean success = (Boolean) jsonObject.get("success");
+            if (success) {
+                user.setUsername(username);
+                this.updateUserInSession(user, request);
+            }
+            result = jsonObject.toString();
         } else {
             JSONObject resultJson = JSONObject.fromObject(false);
             JSONObject dataJson = resultJson.optJSONObject("data");
@@ -95,7 +97,7 @@ public class ApiAction {
         if (!valid) {
             message = "a-z or 0-9 or .-_ is allowed :)";
         } else {
-            String[] prohibitedWords = new String[]{"user", "pdf", "explore", "home", "visual", "settings", "admin", "past", "connect", "bind",
+            String[] prohibitedWords = {"user", "pdf", "explore", "home", "visual", "settings", "admin", "past", "connect", "bind",
                     "i", "notes", "note", "status", "share", "timeline", "post", "login", "logout", "sync", "about",
                     "connect", "dev", "api", "root", "clip", "clipweb"};
             for (String s : prohibitedWords) {
@@ -110,6 +112,34 @@ public class ApiAction {
         map.put("valid", valid);
         map.put("message", message);
         return map;
+    }
+
+
+    @RequestMapping("/updateEmail")
+    @ResponseBody
+    public String updateEmail(@RequestParam(value = "email") String email, HttpServletRequest request) throws UnsupportedEncodingException {
+        User user = this.getUser(request);
+        email = email.toLowerCase();
+        JSONObject jsonObject = userService.updateEmail(user.getId(), email);
+        Boolean success = (Boolean) jsonObject.get("success");
+        if (success) {
+            user.setEmail(email);
+            this.updateUserInSession(user, request);
+        }
+        return jsonObject.toString();
+    }
+
+    @RequestMapping("/updateRemind")
+    @ResponseBody
+    public String updateRemind(@RequestParam(value = "remind") Integer remind, HttpServletRequest request) throws UnsupportedEncodingException {
+        User user = this.getUser(request);
+        JSONObject jsonObject = userService.updateRemind(user.getId(), remind);
+        Boolean success = (Boolean) jsonObject.get("success");
+        if (success) {
+            user.setRemind(remind);
+            this.updateUserInSession(user, request);
+        }
+        return jsonObject.toString();
     }
 
 }
