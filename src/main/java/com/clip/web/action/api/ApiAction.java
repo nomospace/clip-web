@@ -95,7 +95,7 @@ public class ApiAction extends CommonAction {
         Boolean valid = patten.matcher(username).matches();
         String message = null;
         if (!valid) {
-            message = "a-z or 0-9 or .-_ is allowed :)";
+            message = "a-z or 0-9 or .-_ is allowed and 4 words at least:)";
         } else {
             String[] prohibitedWords = {"user", "pdf", "explore", "home", "visual", "settings", "admin", "past", "connect", "bind",
                     "i", "notes", "note", "status", "share", "timeline", "post", "login", "logout", "sync", "about",
