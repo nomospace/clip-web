@@ -4,7 +4,7 @@ import com.clip.web.utils.CoreConstants;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import weibo4j.http.AccessToken;
+import weibo4j.Account;
 import weibo4j.model.WeiboException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +14,8 @@ public class TokenUtils {
     private static Log logger = LogFactory.getLog(TokenUtils.class);
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
-    private static String tokenType;
     protected static String token;
-    protected static AccessToken accessToken;
+//    protected static AccessToken accessToken;
 
     public String getToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -24,7 +23,7 @@ public class TokenUtils {
         String code;
         if (token == null && type != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
-                tokenType = CoreConstants.SINA_WEIBO;
+                session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.SINA_WEIBO);
                 code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
                 if (code != null) {
                     try {
@@ -41,7 +40,7 @@ public class TokenUtils {
                     }
                 }
             } else if (type.equals(CoreConstants.QQ_WEIBO)) {
-                tokenType = CoreConstants.QQ_WEIBO;
+                session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.QQ_WEIBO);
                 code = (String) session.getAttribute(CoreConstants.QQ_WEIBO_CODE);
                 OAuthV2Client.parseAuthorization(code, oauth4Qq);
                 if (oauth4Qq.getStatus() == 2) {
@@ -59,8 +58,21 @@ public class TokenUtils {
         return token;
     }
 
-    public String getTokenType() {
-        return this.tokenType;
+    public String getTokenType(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+    }
+
+    public String getUid() {
+        Account account = new Account();
+        account.client.setToken(token);
+        String uid = null;
+        try {
+            uid = account.getUid().toString();
+        } catch (WeiboException e) {
+            e.printStackTrace();
+        }
+        return uid;
     }
 
 }
