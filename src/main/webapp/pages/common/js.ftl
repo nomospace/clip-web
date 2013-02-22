@@ -13,9 +13,9 @@
       weiboToken: {
       <#if weiboToken?exists>
         accessToken: '${weiboToken!""}'
-        <#--expireIn: '${weiboToken.expireIn!""}',-->
-        <#--refreshToken: '${weiboToken.refreshToken!""}',-->
-        <#--uid: '${weiboToken.uid!""}'-->
+      <#--expireIn: '${weiboToken.expireIn!""}',-->
+      <#--refreshToken: '${weiboToken.refreshToken!""}',-->
+      <#--uid: '${weiboToken.uid!""}'-->
       </#if>
       }
     },
@@ -36,11 +36,11 @@
       'handlebars': '${cfg_base_js_widget}/handlebars',
       'zclip': '${cfg_base_js_widget}/jquery.zclip'
     },
-  <#--urlArgs: 'v=${cfg_version_js}'-->
-    urlArgs: 'v=' + (+new Date()) + '${cfg_version_js}'
+    urlArgs: 'v=${cfg_version_js}'
+  <#--urlArgs: 'v=' + (+new Date()) + '${cfg_version_js}'-->
   });
 
-  require(['module/index']);
+  require(['module/${page_name!"index"}']);
 </script>
 <#--/ requirejs 配置  -->
 
