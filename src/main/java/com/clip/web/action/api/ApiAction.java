@@ -47,13 +47,6 @@ public class ApiAction extends CommonAction {
         response.sendRedirect(authorizationUrl);
     }
 
-//    @RequestMapping("/api/code/{code}")
-//    public void api(@PathVariable("code") String code, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-//        HttpSession session = request.getSession();
-//        session.setAttribute(CoreConstants.SINA_WEIBO_CODE, code);
-//        response.sendRedirect("/");
-//    }
-
     @RequestMapping("/api/{type}/code/{code}")
     public void api(@PathVariable("type") String type, @PathVariable("code") String code, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

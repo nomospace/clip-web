@@ -17,8 +17,12 @@ public class UserService {
         return userDao.getUser(type, token);
     }
 
-    public User addUser(String type, String token, String uid) {
-        return userDao.addUser(type, token, uid);
+    public User getUserByUidAndType(String uid, String type) {
+        return userDao.getUserByUidAndType(uid, type);
+    }
+
+    public User addUser(String uid, String type, String token) {
+        return userDao.addUser(uid, type, token);
     }
 
     public JSONObject updateUsername(Integer id, String username) {
@@ -44,4 +48,13 @@ public class UserService {
         JSONObject result = new ReturnBean(true, null, dataJson).toJSONObject();
         return result;
     }
+
+    public JSONObject updateToken(Integer id, String type, String token) {
+        Boolean success = userDao.updateToken(id, type, token);
+        JSONObject resultJson = JSONObject.fromObject(success);
+        JSONObject dataJson = resultJson.optJSONObject("data");
+        JSONObject result = new ReturnBean(true, null, dataJson).toJSONObject();
+        return result;
+    }
+
 }

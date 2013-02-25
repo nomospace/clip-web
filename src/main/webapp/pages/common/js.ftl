@@ -10,9 +10,9 @@
   clip = {
     cfg: {
       version: '${cfg_version}',
-      weiboToken: {
-      <#if weiboToken?exists>
-        accessToken: '${weiboToken!""}'
+      token: {
+      <#if token?exists>
+        accessToken: '${token!""}'
       <#--expireIn: '${weiboToken.expireIn!""}',-->
       <#--refreshToken: '${weiboToken.refreshToken!""}',-->
       <#--uid: '${weiboToken.uid!""}'-->

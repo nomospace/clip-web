@@ -31,17 +31,22 @@ public class ViewsAction extends CommonAction {
         ModelAndView mav = new ModelAndView("index");
         TokenUtils tokenUtils = new TokenUtils();
         String token = tokenUtils.getToken(request);
-        mav.addObject("weiboToken", token);
         String tokenType = tokenUtils.getTokenType(request);
+        String uid = tokenUtils.getUid(request);
         if (token != null && tokenType != null) {
-            User user = userService.getUser(tokenType, token);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("userInfo", user);
+            User user = userService.getUserByUidAndType(uid, tokenType);
+            if (uid != null) {
+                if (user != null) {
+                    userService.updateToken(user.getId(), tokenType, token);
+                } else {
+                    user = userService.addUser(uid, tokenType, token);
+                }
+                this.updateUserInSession(user, request);
+                mav.addObject("token", token);
                 mav.addObject("user", user);
-            } else {
-                String uid = tokenUtils.getUid();
-                userService.addUser(tokenType, token, uid);
+                mav.addObject("uid", uid);
+                // 获取 timeline
+                mav.addObject("statuses", this.getUserTimeline(tokenType, request).getStatuses());
             }
         }
         return mav;
@@ -66,39 +71,6 @@ public class ViewsAction extends CommonAction {
             mav.addObject("user", user);
         }
         return mav;
-    }
-
-    @RequestMapping("/xss")
-    public String xss() {
-        return "xss";
-    }
-
-    @RequestMapping("/image_xss")
-    public ResponseEntity<byte[]> imageXss(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        response.setStatus(401);
-//        response.setContentType("image/gif");
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "image/jpeg; charset=utf-8");
-        responseHeaders.add("HTTP/1.1", "401 Unauthorized");
-
-
-        OutputStream outputStream = response.getOutputStream();
-        BufferedInputStream inputStream = new BufferedInputStream(
-                new FileInputStream(request.getSession()
-                        .getServletContext().getRealPath("/WEB-INF/classes/baidu.gif")));
-        byte[] data = new byte[1024];
-        try {
-            for (int i = inputStream.read(data); i > 0; i = inputStream
-                    .read(data)) {
-                outputStream.write(data, 0, i);
-            }
-            inputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return new ResponseEntity<byte[]>(data, responseHeaders, HttpStatus.UNAUTHORIZED);
-//        response.sendRedirect("http://www.baidu.com/img/shouye_b5486898c692066bd2cbaeda86d74448.gif");
     }
 
     @RequestMapping("/404")
