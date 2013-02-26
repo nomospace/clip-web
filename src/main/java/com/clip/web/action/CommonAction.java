@@ -23,7 +23,7 @@ public class CommonAction {
         session.setAttribute("userInfo", user);
     }
 
-    public StatusWapper getUserTimeline(String type, HttpServletRequest request) {
+    public StatusWapper getUserTimeline(Integer id, String type, HttpServletRequest request) {
         if (type.equals(CoreConstants.SINA_WEIBO)) {
             Timeline tl = new Timeline();
             TokenUtils tokenUtils = new TokenUtils();

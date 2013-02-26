@@ -5,6 +5,8 @@ import com.tencent.weibo.oauthv2.OAuthV2Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import weibo4j.Account;
+import weibo4j.Users;
+import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
 
@@ -78,6 +80,25 @@ public class TokenUtils {
             }
         }
         return uid;
+    }
+
+    public String getUserInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+        if (type != null && token != null) {
+            if (type.equals(CoreConstants.SINA_WEIBO)) {
+                String uid = this.getUid(request);
+                Users users = new Users();
+                users.client.setToken(token);
+                try {
+                    User user = users.showUserById(uid);
+                    logger.info(user.toString());
+                } catch (WeiboException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
 }

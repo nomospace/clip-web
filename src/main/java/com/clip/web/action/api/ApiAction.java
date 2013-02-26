@@ -84,7 +84,7 @@ public class ApiAction extends CommonAction {
     }
 
     public HashMap checkUsername(String username) throws UnsupportedEncodingException {
-        Pattern patten = Pattern.compile("^[a-z][0-9a-zA-Z_.-]{3,15}");
+        Pattern patten = Pattern.compile("\\w{3,15}");
         Boolean valid = patten.matcher(username).matches();
         String message = null;
         if (!valid) {

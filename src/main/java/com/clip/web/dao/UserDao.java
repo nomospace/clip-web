@@ -28,6 +28,30 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return (User) criteria.uniqueResult();
     }
 
+    public User getUserByUidAndType(String uid, String type) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        SimpleExpression tokenExpression = null;
+        if (type.equals("sina")) {
+            tokenExpression = Restrictions.eq("sina_weibo_uid", uid);
+        } else if (type.equals("qq")) {
+            tokenExpression = Restrictions.eq("qq_weibo_uid", uid);
+        }
+        criteria.add(tokenExpression);
+        return (User) criteria.uniqueResult();
+    }
+
+    public User getUserById(Integer id) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        return (User) criteria.uniqueResult();
+    }
+
+    public User getUserByUsername(String username) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("username", username));
+        return (User) criteria.uniqueResult();
+    }
+
     public User addUser(String uid, String type, String token) {
         User user = new User();
         user.setUsername(uid);
@@ -97,18 +121,6 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
             success = true;
         }
         return success;
-    }
-
-    public User getUserByUidAndType(String uid, String type) {
-        Criteria criteria = getSession().createCriteria(User.class);
-        SimpleExpression tokenExpression = null;
-        if (type.equals("sina")) {
-            tokenExpression = Restrictions.eq("sina_weibo_uid", uid);
-        } else if (type.equals("qq")) {
-            tokenExpression = Restrictions.eq("qq_weibo_uid", uid);
-        }
-        criteria.add(tokenExpression);
-        return (User) criteria.uniqueResult();
     }
 
 }

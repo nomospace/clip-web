@@ -21,6 +21,14 @@ public class UserService {
         return userDao.getUserByUidAndType(uid, type);
     }
 
+    public User getUserById(Integer id) {
+        return userDao.getUserById(id);
+    }
+
+    public User getUserByUsername(String username) {
+        return userDao.getUserByUsername(username);
+    }
+
     public User addUser(String uid, String type, String token) {
         return userDao.addUser(uid, type, token);
     }
