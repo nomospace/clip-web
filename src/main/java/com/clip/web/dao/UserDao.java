@@ -28,8 +28,33 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return (User) criteria.uniqueResult();
     }
 
-    public User addUser(String type, String token, String uid) {
+    public User getUserByUidAndType(String uid, String type) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        SimpleExpression tokenExpression = null;
+        if (type.equals("sina")) {
+            tokenExpression = Restrictions.eq("sina_weibo_uid", uid);
+        } else if (type.equals("qq")) {
+            tokenExpression = Restrictions.eq("qq_weibo_uid", uid);
+        }
+        criteria.add(tokenExpression);
+        return (User) criteria.uniqueResult();
+    }
+
+    public User getUserById(Integer id) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        return (User) criteria.uniqueResult();
+    }
+
+    public User getUserByUsername(String username) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("username", username));
+        return (User) criteria.uniqueResult();
+    }
+
+    public User addUser(String uid, String type, String token) {
         User user = new User();
+        user.setUsername(uid);
         if (type.equals("sina")) {
             user.setSina_weibo_token(token);
             user.setSina_weibo_uid(uid);
@@ -80,4 +105,22 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         }
         return success;
     }
+
+    public Boolean updateToken(Integer id, String type, String token) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        User user = (User) criteria.uniqueResult();
+        Boolean success = false;
+        if (user != null) {
+            if (type.equals("sina")) {
+                user.setSina_weibo_token(token);
+            } else if (type.equals("qq")) {
+                user.setQq_weibo_token(token);
+            }
+            autoSave(user);
+            success = true;
+        }
+        return success;
+    }
+
 }

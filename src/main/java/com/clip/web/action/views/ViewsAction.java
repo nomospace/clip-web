@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import weibo4j.model.WeiboException;
@@ -31,17 +33,22 @@ public class ViewsAction extends CommonAction {
         ModelAndView mav = new ModelAndView("index");
         TokenUtils tokenUtils = new TokenUtils();
         String token = tokenUtils.getToken(request);
-        mav.addObject("weiboToken", token);
         String tokenType = tokenUtils.getTokenType(request);
+        String uid = tokenUtils.getUid(request);
         if (token != null && tokenType != null) {
-            User user = userService.getUser(tokenType, token);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("userInfo", user);
+            User user = userService.getUserByUidAndType(uid, tokenType);
+            if (uid != null) {
+                if (user != null) {
+                    userService.updateToken(user.getId(), tokenType, token);
+                } else {
+                    user = userService.addUser(uid, tokenType, token);
+                }
+                this.updateUserInSession(user, request);
+                mav.addObject("token", token);
                 mav.addObject("user", user);
-            } else {
-                String uid = tokenUtils.getUid();
-                userService.addUser(tokenType, token, uid);
+                mav.addObject("uid", uid);
+                // 获取 timeline
+                mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, request).getStatuses());
             }
         }
         return mav;
@@ -68,55 +75,52 @@ public class ViewsAction extends CommonAction {
         return mav;
     }
 
-    @RequestMapping("/xss")
-    public String xss() {
-        return "xss";
+    @RequestMapping("/user/{username}")
+    public ModelAndView showUserUsername(@PathVariable("username") String username, HttpServletRequest request, HttpServletResponse response) {
+        return this.showUser(username, request, response);
     }
 
-    @RequestMapping("/image_xss")
-    public ResponseEntity<byte[]> imageXss(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        response.setStatus(401);
-//        response.setContentType("image/gif");
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "image/jpeg; charset=utf-8");
-        responseHeaders.add("HTTP/1.1", "401 Unauthorized");
-
-
-        OutputStream outputStream = response.getOutputStream();
-        BufferedInputStream inputStream = new BufferedInputStream(
-                new FileInputStream(request.getSession()
-                        .getServletContext().getRealPath("/WEB-INF/classes/baidu.gif")));
-        byte[] data = new byte[1024];
-        try {
-            for (int i = inputStream.read(data); i > 0; i = inputStream
-                    .read(data)) {
-                outputStream.write(data, 0, i);
-            }
-            inputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    @RequestMapping("/{username}")
+    public ModelAndView showUser(@PathVariable("username") String username, HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("user");
+        User user = userService.getUserByUsername(username);
+        TokenUtils tokenUtils = new TokenUtils();
+        String token = tokenUtils.getToken(request);
+        String tokenType = tokenUtils.getTokenType(request);
+        String uid = tokenUtils.getUid(request);
+        tokenUtils.getUserInfo(request);
+        if (user != null) {
+            mav.addObject("token", token);
+            mav.addObject("user", user);
+            mav.addObject("uid", uid);
+            // 获取 timeline
+            mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, request).getStatuses());
+        } else {
+            mav = this.to404(response);
         }
-        return new ResponseEntity<byte[]>(data, responseHeaders, HttpStatus.UNAUTHORIZED);
-//        response.sendRedirect("http://www.baidu.com/img/shouye_b5486898c692066bd2cbaeda86d74448.gif");
+        return mav;
     }
+
 
     @RequestMapping("/404")
-    public String to400(HttpServletResponse response) {
+    public ModelAndView to404(HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("common/404");
         response.setStatus(404);
-        return "common/404";
+        return mav;
     }
 
     @RequestMapping("/500")
-    public String to500(HttpServletResponse response) {
+    public ModelAndView to500(HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("common/500");
         response.setStatus(500);
-        return "common/500";
+        return mav;
     }
 
     @RequestMapping("/403")
-    public String to403(HttpServletResponse response) {
+    public ModelAndView to403(HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("common/403");
         response.setStatus(403);
-        return "common/403";
+        return mav;
     }
 
 }

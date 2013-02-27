@@ -5,7 +5,10 @@ import com.tencent.weibo.oauthv2.OAuthV2Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import weibo4j.Account;
+import weibo4j.Users;
+import weibo4j.model.User;
 import weibo4j.model.WeiboException;
+import weibo4j.org.json.JSONException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,9 +30,6 @@ public class TokenUtils {
                 code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
                 if (code != null) {
                     try {
-//                        accessToken = oauth4Sina.getAccessTokenByCode(code);
-//                        System.out.println("userId is null?" + userId);
-//                        token = accessToken.getAccessToken();
                         token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
                     } catch (WeiboException e) {
                         if (401 == e.getStatusCode()) {
@@ -43,15 +43,12 @@ public class TokenUtils {
                 session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.QQ_WEIBO);
                 code = (String) session.getAttribute(CoreConstants.QQ_WEIBO_CODE);
                 OAuthV2Client.parseAuthorization(code, oauth4Qq);
-                if (oauth4Qq.getStatus() == 2) {
-                    logger.info("Get Authorization Code failed!");
-                } else {
-                    oauth4Qq.setGrantType("authorize_code");
-                    try {
-                        token = oauth4Qq.getAccessToken();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                oauth4Qq.setGrantType("authorize_code");
+                try {
+                    OAuthV2Client.accessToken(oauth4Qq);
+                    token = oauth4Qq.getAccessToken();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -63,16 +60,45 @@ public class TokenUtils {
         return (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
     }
 
-    public String getUid() {
-        Account account = new Account();
-        account.client.setToken(token);
+    public String getUid(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
         String uid = null;
-        try {
-            uid = account.getUid().toString();
-        } catch (WeiboException e) {
-            e.printStackTrace();
+        if (type != null && token != null) {
+            if (type.equals(CoreConstants.SINA_WEIBO)) {
+                Account account = new Account();
+                account.client.setToken(token);
+                try {
+                    uid = String.valueOf(account.getUid().get("uid"));
+                } catch (WeiboException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (type.equals(CoreConstants.QQ_WEIBO)) {
+                uid = oauth4Qq.getClientId();
+            }
         }
         return uid;
+    }
+
+    public String getUserInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+        if (type != null && token != null) {
+            if (type.equals(CoreConstants.SINA_WEIBO)) {
+                String uid = this.getUid(request);
+                Users users = new Users();
+                users.client.setToken(token);
+                try {
+                    User user = users.showUserById(uid);
+                    logger.info(user.toString());
+                } catch (WeiboException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
 }
