@@ -53,6 +53,7 @@
 <body class="${class}" <#if id!="">id="${id}"</#if>>
   <@navbar></@navbar>
   <#include "header.ftl"/>
+  <#include "login.ftl"/>
   <#nested>
 <a id="J_page_to_top" class="global-totop" title="回到顶部"></a>
   <#include "footer.ftl"/>
@@ -94,24 +95,27 @@
       <a class='brand' href='/'>ClipWeb</a>
       <ul class='nav pull-right'>
         <li><a href='/'>首页</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="/setting">设置</a>
-            </li>
-            <li>
-              <a href="/notifications">提醒</a>
-            </li>
-            <li>
-              <a href="/help">帮助</a>
-            </li>
-            <li>
-              <a href="/logout">退出</a>
-            </li>
-          </ul>
-        </li>
-        <li><a href='/signin'>登录</a></li>
+        <#if user??>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/setting">设置</a>
+              </li>
+              <li>
+                <a href="/notifications">提醒</a>
+              </li>
+              <li>
+                <a href="/help">帮助</a>
+              </li>
+              <li>
+                <a href="/logout">退出</a>
+              </li>
+            </ul>
+          </li>
+        <#else>
+          <li><a href='/signin'>登录</a></li>
+        </#if>
       </ul>
       <a class="fork2github" href="https://github.com/nomospace/clip-web">
         <img src="/static/images/octocat-icon.png" alt="Fork me on GitHub">
