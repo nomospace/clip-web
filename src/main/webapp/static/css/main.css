@@ -20,10 +20,6 @@ body {
   margin: 0 auto;
 }
 
-.navbar .nav.pull-right {
-  margin-right: 20px;
-}
-
 .navbar-inner {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -31,9 +27,7 @@ body {
 }
 
 .fork2github {
-  position: absolute;
-  top: 10px;
-  right: 4px;
+  display: inline-block;
   width: 30px;
   height: 30px;
 }

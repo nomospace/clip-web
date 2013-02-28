@@ -5,7 +5,7 @@
     <@body class="setting-page">
     <div class="wrapper">
       <div class="row-fluid">
-        <div class="form-horizontal span7">
+        <div class="form-horizontal span8">
           <h3>账户设置</h3>
           <fieldset>
             <legend>设置个性域名</legend>
@@ -27,7 +27,7 @@
             <div class="control-group">
               <label class="control-label">注册时间：</label>
               <div class="controls">
-                <span class="help-inline">2013-02-06 16:31:52</span>
+                <span class="help-inline">${user.register_date?number_to_date}</span>
               </div>
             </div>
             <div class="control-group">
@@ -36,7 +36,7 @@
                 <input type="text" id="J_email" value="${user.email!""}">
               </div>
               <div class="controls">
-                <span class="help-block">定期发送更新好的PDF版本和历史上的今天提醒<br>(建议把 help@clip.me 添加到你的邮件联系人中)</span>
+                <span class="help-block">定期发送更新好的 PDF 版本和历史上的今天提醒<br>(建议把 help@clip.me 添加到你的邮件联系人中)</span>
               </div>
             </div>
             <div class="control-group">
