@@ -15,11 +15,11 @@
       <div id="user_info" class="side-box">
         <div class="info-profile">
           <div class="avatar">
-            <a href="/user/${user.username}" title="${user.username}" class="img x">
-              <img width="64px" height="64px" src="${user.profileImageUrl!""}"></a>
+            <a href="/user/${ouser.username}" title="${ouser.username}" class="img x">
+              <img width="64px" height="64px" src="${ouser.profileImageUrl!""}"></a>
           </div>
           <div class="entry">
-            <div class="name"><a href="/user/${user.username}">${user.username}</a></div>
+            <div class="name"><a href="/user/${ouser.username}">${ouser.username}</a></div>
             <p>
               <!-- 其他用户展示已绑定平台的图标，点击跳转个平台 -->
               <!-- 个人展示页面未绑定图标灰色：无 "oauth"，点击跳转授权 -->
@@ -50,7 +50,7 @@
         <!-- 个人简介 -->
         <div class="info_inner">
           <p>
-          ${user.desription!""}
+          ${ouser.desription!""}
           </p>
         </div>
       </div>

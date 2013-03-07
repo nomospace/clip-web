@@ -67,12 +67,12 @@ public class ApiAction extends CommonAction {
         HashMap map = this.checkUsername(username);
         Boolean valid = (Boolean) map.get("valid");
         if (valid) {
-            User user = this.getUser(request);
+            User user = this.getCurrentUser(request);
             JSONObject jsonObject = userService.updateUsername(user.getId(), username);
             Boolean success = (Boolean) jsonObject.get("success");
             if (success) {
                 user.setUsername(username);
-                this.updateUserInSession(user, request);
+                this.updateCurrentUserInSession(user, request);
             }
             result = jsonObject.toString();
         } else {
@@ -111,13 +111,13 @@ public class ApiAction extends CommonAction {
     @RequestMapping("/updateEmail")
     @ResponseBody
     public String updateEmail(@RequestParam(value = "email") String email, HttpServletRequest request) throws UnsupportedEncodingException {
-        User user = this.getUser(request);
+        User user = this.getCurrentUser(request);
         email = email.toLowerCase();
         JSONObject jsonObject = userService.updateEmail(user.getId(), email);
         Boolean success = (Boolean) jsonObject.get("success");
         if (success) {
             user.setEmail(email);
-            this.updateUserInSession(user, request);
+            this.updateCurrentUserInSession(user, request);
         }
         return jsonObject.toString();
     }
@@ -125,12 +125,12 @@ public class ApiAction extends CommonAction {
     @RequestMapping("/updateRemind")
     @ResponseBody
     public String updateRemind(@RequestParam(value = "remind") Integer remind, HttpServletRequest request) throws UnsupportedEncodingException {
-        User user = this.getUser(request);
+        User user = this.getCurrentUser(request);
         JSONObject jsonObject = userService.updateRemind(user.getId(), remind);
         Boolean success = (Boolean) jsonObject.get("success");
         if (success) {
             user.setRemind(remind);
-            this.updateUserInSession(user, request);
+            this.updateCurrentUserInSession(user, request);
         }
         return jsonObject.toString();
     }
