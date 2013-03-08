@@ -28,7 +28,7 @@ public class ViewsAction extends CommonAction {
         String token = tokenUtils.getToken(request);
         String tokenType = tokenUtils.getTokenType(request);
         if (token != null && tokenType != null) {
-            String uid = tokenUtils.getUid(request);
+            String uid = tokenUtils.getOauth2TokenUidByTypeAndToken(tokenType, token);
             User user = userService.getUserByUidAndType(uid, tokenType);
             if (uid != null) {
                 if (user != null) {

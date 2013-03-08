@@ -55,7 +55,6 @@
   <#include "header.ftl"/>
   <#include "login.ftl"/>
   <#nested>
-<a id="J_page_to_top" class="global-totop" title="回到顶部"></a>
   <#include "footer.ftl"/>
   <#include "js.ftl">
 </body>

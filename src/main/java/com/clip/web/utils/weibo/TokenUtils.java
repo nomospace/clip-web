@@ -55,14 +55,38 @@ public class TokenUtils {
         return token;
     }
 
+    public String getTokenByTypeAndCode(String type, String code) {
+        if (type != null && code != null) {
+            if (type.equals(CoreConstants.SINA_WEIBO)) {
+                try {
+                    token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
+                } catch (WeiboException e) {
+                    if (401 == e.getStatusCode()) {
+                        logger.info("Unable to get the access token.");
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (type.equals(CoreConstants.QQ_WEIBO)) {
+                OAuthV2Client.parseAuthorization(code, oauth4Qq);
+                oauth4Qq.setGrantType("authorize_code");
+                try {
+                    OAuthV2Client.accessToken(oauth4Qq);
+                    token = oauth4Qq.getAccessToken();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return token;
+    }
+
     public String getTokenType(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
     }
 
-    public String getUid(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+    public String getOauth2TokenUidByTypeAndToken(String type, String token) {
         String uid = null;
         if (type != null && token != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
@@ -87,7 +111,7 @@ public class TokenUtils {
         String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
         if (type != null && token != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
-                String uid = this.getUid(request);
+                String uid = this.getOauth2TokenUidByTypeAndToken(type, token);
                 Users users = new Users();
                 users.client.setToken(token);
                 try {

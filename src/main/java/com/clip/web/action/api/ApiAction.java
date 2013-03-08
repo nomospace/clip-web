@@ -2,11 +2,16 @@ package com.clip.web.action.api;
 
 import com.clip.core.bean.ReturnBean;
 import com.clip.web.action.CommonAction;
+import com.clip.web.model.Oauth2Token;
 import com.clip.web.model.User;
+import com.clip.web.model.UserAlias;
+import com.clip.web.service.Oauth2TokenService;
+import com.clip.web.service.UserAliasService;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.Oauth4Qq;
 import com.clip.web.utils.weibo.Oauth4Sina;
+import com.clip.web.utils.weibo.TokenUtils;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -22,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -29,6 +35,8 @@ import java.util.regex.Pattern;
 public class ApiAction extends CommonAction {
     @Resource
     private UserService userService;
+    private UserAliasService userAliasService;
+    private Oauth2TokenService oauth2TokenService;
 
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
@@ -56,6 +64,46 @@ public class ApiAction extends CommonAction {
             session.setAttribute(CoreConstants.QQ_WEIBO_CODE, code);
         }
         session.setAttribute(CoreConstants.WEIBO_TYPE, type);
+
+        // TODO
+        TokenUtils tokenUtils = new TokenUtils();
+        String token = tokenUtils.getTokenByTypeAndCode(type, code);
+        Integer uid;
+        if (token != null) {
+            uid = Integer.valueOf(tokenUtils.getOauth2TokenUidByTypeAndToken(type, token));
+            System.out.println(uid);
+            UserAlias userAlias = userAliasService.getUserByUid(uid);
+            if (userAlias != null) {
+                // update token
+                Oauth2Token oauth2Token = oauth2TokenService.updateTokenByUid(uid, token);
+                if (oauth2Token != null) {
+
+                }
+            } else {
+                // add user & alias
+                User user = new User();
+                Date date = new Date();
+                Long now = date.getTime();
+                user.setName(String.valueOf(uid));
+                user.setUid(String.valueOf(uid));
+                user.setSessionId("sessssssssssion");
+                user.setTime(now);
+                user = userService.addUser(user);
+                if (user != null) {
+                    userAlias = new UserAlias();
+                    userAlias.setType(type);
+                    userAlias.setUserId(uid);
+                    userAlias.setAlias("");
+                    userAlias.setTime(now);
+                    userAliasService.addUserAlias(userAlias);
+                }
+            }
+        }
+
+        // aad user_token
+        // get status
+
+
         response.sendRedirect("/");
     }
 

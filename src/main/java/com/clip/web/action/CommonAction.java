@@ -40,6 +40,7 @@ public class CommonAction {
             StatusWapper status = null;
             try {
                 status = tl.getUserTimeline();
+                System.out.println(status);
 //                for (Status s : status.getStatuses()) {
 //                    Log.logInfo(s.toString());
 //                }
