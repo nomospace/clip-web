@@ -114,7 +114,7 @@
             </ul>
           </li>
         <#else>
-          <li><a href="javascript:;">登录</a></li>
+          <li><a id="J_login" href="javascript:;">登录</a></li>
         </#if>
       </ul>
     </div>
