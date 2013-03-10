@@ -9,8 +9,8 @@
           <h3>账户设置</h3>
           <fieldset>
             <legend>设置个性域名</legend>
-            <input type="text" id="J_username" value="${user.username!""}">
-            <button type="submit" class="btn btn-primary" id="J_username_btn">设置</button>
+            <input type="text" id="J_name" value="${user.username!""}">
+            <button type="submit" class="btn btn-primary" id="J_name_btn">设置</button>
           <span class="help-block">
             你的个性域名 xxx, 数字字母和.-_ <br>
             然后就可以 http://localhost:3002/xxx 来访问个人页面了(设置后无法变更)

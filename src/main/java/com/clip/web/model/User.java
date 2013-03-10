@@ -9,6 +9,7 @@ public class User {
     private Integer id;
     private String uid;
     private String name;
+    private String email;
     private String sessionId;
     private Long time;
 
@@ -39,6 +40,15 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Column(name = "session_id")

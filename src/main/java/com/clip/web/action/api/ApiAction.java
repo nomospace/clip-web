@@ -103,23 +103,22 @@ public class ApiAction extends CommonAction {
         // aad user_token
         // get status
 
-
         response.sendRedirect("/");
     }
 
-    @RequestMapping("/updateUsername")
+    @RequestMapping("/updateName")
     @ResponseBody
-    public String updateUsername(@RequestParam(value = "username") String username, final HttpServletRequest request) throws UnsupportedEncodingException {
+    public String updateName(@RequestParam(value = "name") String name, final HttpServletRequest request) throws UnsupportedEncodingException {
         String result;
-        username = username.toLowerCase();
-        HashMap map = this.checkUsername(username);
+        name = name.toLowerCase();
+        HashMap map = this.checkName(name);
         Boolean valid = (Boolean) map.get("valid");
         if (valid) {
             User user = this.getCurrentUser(request);
-            JSONObject jsonObject = userService.updateUsername(user.getId(), username);
+            JSONObject jsonObject = userService.updateName(user.getId(), name);
             Boolean success = (Boolean) jsonObject.get("success");
             if (success) {
-                user.setUsername(username);
+                user.setName(name);
                 this.updateCurrentUserInSession(user, request);
             }
             result = jsonObject.toString();
@@ -131,9 +130,9 @@ public class ApiAction extends CommonAction {
         return result;
     }
 
-    public HashMap checkUsername(String username) throws UnsupportedEncodingException {
+    public HashMap checkName(String name) throws UnsupportedEncodingException {
         Pattern patten = Pattern.compile("\\w{3,15}");
-        Boolean valid = patten.matcher(username).matches();
+        Boolean valid = patten.matcher(name).matches();
         String message = null;
         if (!valid) {
             message = "a-z or 0-9 or .-_ is allowed and 4 words at least:)";
@@ -142,7 +141,7 @@ public class ApiAction extends CommonAction {
                     "i", "notes", "note", "status", "share", "timeline", "post", "login", "logout", "sync", "about",
                     "connect", "dev", "api", "root", "clip", "clipweb"};
             for (String s : prohibitedWords) {
-                if (s.equals(username)) {
+                if (s.equals(name)) {
                     valid = false;
                     message = "Ooops, " + s + " is already used :)";
                     break;
@@ -170,17 +169,17 @@ public class ApiAction extends CommonAction {
         return jsonObject.toString();
     }
 
-    @RequestMapping("/updateRemind")
-    @ResponseBody
-    public String updateRemind(@RequestParam(value = "remind") Integer remind, HttpServletRequest request) throws UnsupportedEncodingException {
-        User user = this.getCurrentUser(request);
-        JSONObject jsonObject = userService.updateRemind(user.getId(), remind);
-        Boolean success = (Boolean) jsonObject.get("success");
-        if (success) {
-            user.setRemind(remind);
-            this.updateCurrentUserInSession(user, request);
-        }
-        return jsonObject.toString();
-    }
+//    @RequestMapping("/updateRemind")
+//    @ResponseBody
+//    public String updateRemind(@RequestParam(value = "remind") Integer remind, HttpServletRequest request) throws UnsupportedEncodingException {
+//        User user = this.getCurrentUser(request);
+//        JSONObject jsonObject = userService.updateRemind(user.getId(), remind);
+//        Boolean success = (Boolean) jsonObject.get("success");
+//        if (success) {
+//            user.setRemind(remind);
+//            this.updateCurrentUserInSession(user, request);
+//        }
+//        return jsonObject.toString();
+//    }
 
 }

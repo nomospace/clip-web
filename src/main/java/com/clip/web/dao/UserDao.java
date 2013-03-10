@@ -44,13 +44,13 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return (User) criteria.uniqueResult();
     }
 
-    public User getUserByUsername(String username) {
+    public User getUserByName(String name) {
         Criteria criteria = getSession().createCriteria(User.class);
-        criteria.add(Restrictions.eq("username", username));
+        criteria.add(Restrictions.eq("name", name));
         return (User) criteria.uniqueResult();
     }
 
-//    public User addUser(String uid, String type, String token) {
+    //    public User addUser(String uid, String type, String token) {
 //        User user = new User();
 //        user.setUsername(uid);
 //        if (type.equals("sina")) {
@@ -65,31 +65,32 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
 //        return autoSave(user);
 //    }
 //
-//    public Boolean updateUsername(Integer id, String username) {
-//        Criteria criteria = getSession().createCriteria(User.class);
-//        criteria.add(Restrictions.eq("id", id));
-//        User user = (User) criteria.uniqueResult();
-//        Boolean success = false;
-//        if (user != null) {
-//            user.setUsername(username);
-//            autoSave(user);
-//            success = true;
-//        }
-//        return success;
-//    }
-//
-//    public Boolean updateEmail(Integer id, String email) {
-//        Criteria criteria = getSession().createCriteria(User.class);
-//        criteria.add(Restrictions.eq("id", id));
-//        User user = (User) criteria.uniqueResult();
-//        Boolean success = false;
-//        if (user != null) {
-//            user.setEmail(email);
-//            autoSave(user);
-//            success = true;
-//        }
-//        return success;
-//    }
+    public Boolean updateName(Integer id, String name) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        User user = (User) criteria.uniqueResult();
+        Boolean success = false;
+        if (user != null) {
+            user.setName(name);
+            autoSave(user);
+            success = true;
+        }
+        return success;
+    }
+
+    //
+    public Boolean updateEmail(Integer id, String email) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", id));
+        User user = (User) criteria.uniqueResult();
+        Boolean success = false;
+        if (user != null) {
+            user.setEmail(email);
+            autoSave(user);
+            success = true;
+        }
+        return success;
+    }
 //
 //    public Boolean updateRemind(Integer id, Integer remind) {
 //        Criteria criteria = getSession().createCriteria(User.class);

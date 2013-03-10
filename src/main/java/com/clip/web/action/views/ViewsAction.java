@@ -4,7 +4,6 @@ import com.clip.web.action.CommonAction;
 import com.clip.web.model.User;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
-import com.clip.web.utils.weibo.TokenUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,23 +23,23 @@ public class ViewsAction extends CommonAction {
     @RequestMapping("/")
     public ModelAndView index(final HttpServletRequest request) throws WeiboException {
         ModelAndView mav = new ModelAndView("index");
-        TokenUtils tokenUtils = new TokenUtils();
-        String token = tokenUtils.getToken(request);
-        String tokenType = tokenUtils.getTokenType(request);
-        if (token != null && tokenType != null) {
-            String uid = tokenUtils.getOauth2TokenUidByTypeAndToken(tokenType, token);
-            User user = userService.getUserByUidAndType(uid, tokenType);
-            if (uid != null) {
-                if (user != null) {
-                    userService.updateToken(user.getId(), tokenType, token);
-                } else {
-                    user = userService.addUser(uid, tokenType, token);
-                }
-                this.updateCurrentUserInSession(user, request);
-                this.addObject(request, mav);
-                mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
-            }
-        }
+//        TokenUtils tokenUtils = new TokenUtils();
+//        String token = tokenUtils.getToken(request);
+//        String tokenType = tokenUtils.getTokenType(request);
+//        if (token != null && tokenType != null) {
+//            String uid = tokenUtils.getOauth2TokenUidByTypeAndToken(tokenType, token);
+//            User user = userService.getUserByUidAndType(uid, tokenType);
+//            if (uid != null) {
+//                if (user != null) {
+//                    userService.updateToken(user.getId(), tokenType, token);
+//                } else {
+//                    user = userService.addUser(uid, tokenType, token);
+//                }
+//                this.updateCurrentUserInSession(user, request);
+//                this.addObject(request, mav);
+//                mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
+//            }
+//        }
         return mav;
     }
 
@@ -66,25 +65,25 @@ public class ViewsAction extends CommonAction {
     }
 
     @RequestMapping("/user/{username}")
-    public ModelAndView showUserUsername(@PathVariable("username") String username, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showName(@PathVariable("name") String name, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("user");
-        User user = userService.getUserByUsername(username);
-        if (user != null) {
-            String uid = user.getSina_weibo_uid();
-            String token = user.getSina_weibo_token();
-            String tokenType = CoreConstants.SINA_WEIBO;
-            if (uid.isEmpty()) {
-                uid = user.getQq_weibo_uid();
-                token = user.getQq_weibo_token();
-                tokenType = CoreConstants.QQ_WEIBO;
-            }
-            this.addObject(request, mav);
-            mav.addObject("ouid", uid);
-            mav.addObject("ouser", user);
-            mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
-        } else {
-            mav = this.to404(response);
-        }
+//        User user = userService.getUserByName(name);
+//        if (user != null) {
+//            String uid = user.getUid();
+//            String token = user.getSina_weibo_token();
+//            String tokenType = CoreConstants.SINA_WEIBO;
+//            if (uid.isEmpty()) {
+//                uid = user.getQq_weibo_uid();
+//                token = user.getQq_weibo_token();
+//                tokenType = CoreConstants.QQ_WEIBO;
+//            }
+//            this.addObject(request, mav);
+//            mav.addObject("ouid", uid);
+//            mav.addObject("ouser", user);
+//            mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
+//        } else {
+//            mav = this.to404(response);
+//        }
         return mav;
     }
 

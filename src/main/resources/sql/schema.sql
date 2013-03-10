@@ -60,6 +60,7 @@ CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `uid` varchar(16) NOT NULL default '',
   `name` varchar(63) NOT NULL default '',
+  `email` varchar(63) NOT NULL default '',
   `session_id` varchar(16) default NULL,
   `time` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`),
