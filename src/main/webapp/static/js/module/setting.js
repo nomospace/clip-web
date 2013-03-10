@@ -1,20 +1,20 @@
 define(function() {
   'use strict';
 
-  var $username = $('#J_username'),
-    $usernameBtn = $('#J_username_btn'),
+  var $name = $('#J_name'),
+    $nameBtn = $('#J_name_btn'),
     $email = $('#J_email'),
     $emailBtn = $('#J_email_btn'),
     $remind = $('#J_remind'),
     $remindBtn = $('#J_remind_btn');
 
-  $usernameBtn.click(function(e) {
-    var username = $.trim($username.val());
-    if (username) {
+  $nameBtn.click(function(e) {
+    var name = $.trim($name.val());
+    if (name) {
       $.ajax({
-        'url': '/updateUsername',
+        'url': '/updateName',
         'data': {
-          'username': username
+          'name': name
         },
         'type': 'post',
         'dataType': 'json'

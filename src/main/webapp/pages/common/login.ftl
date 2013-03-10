@@ -1,5 +1,5 @@
 <#if !user??>
-<section id="J_login" class="nav-login" style="top: 45px;">
+<section id="J_login_overlay" class="nav-login" style="top: 45px;display: none;">
   <div class="login-head"><h3>授权登录</h3></div>
   <div class="login-connent">
     <ul>

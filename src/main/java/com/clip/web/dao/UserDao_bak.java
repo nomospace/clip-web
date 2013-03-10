@@ -7,10 +7,12 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class UserDao extends BaseHibernateDao4<User, Integer> {
+import java.util.Date;
 
-    public UserDao() {
+@Repository
+public class UserDao_bak extends BaseHibernateDao4<User, Integer> {
+
+    public UserDao_bak() {
         super(User.class);
     }
 
@@ -44,13 +46,13 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         return (User) criteria.uniqueResult();
     }
 
-    public User getUserByName(String name) {
+    public User getUserByUsername(String username) {
         Criteria criteria = getSession().createCriteria(User.class);
-        criteria.add(Restrictions.eq("name", name));
+        criteria.add(Restrictions.eq("username", username));
         return (User) criteria.uniqueResult();
     }
 
-    //    public User addUser(String uid, String type, String token) {
+//    public User addUser(String uid, String type, String token) {
 //        User user = new User();
 //        user.setUsername(uid);
 //        if (type.equals("sina")) {
@@ -65,20 +67,19 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
 //        return autoSave(user);
 //    }
 //
-    public Boolean updateName(Integer id, String name) {
-        Criteria criteria = getSession().createCriteria(User.class);
-        criteria.add(Restrictions.eq("id", id));
-        User user = (User) criteria.uniqueResult();
-        Boolean success = false;
-        if (user != null) {
-            user.setName(name);
-            autoSave(user);
-            success = true;
-        }
-        return success;
-    }
+//    public Boolean updateUsername(Integer id, String username) {
+//        Criteria criteria = getSession().createCriteria(User.class);
+//        criteria.add(Restrictions.eq("id", id));
+//        User user = (User) criteria.uniqueResult();
+//        Boolean success = false;
+//        if (user != null) {
+//            user.setUsername(username);
+//            autoSave(user);
+//            success = true;
+//        }
+//        return success;
+//    }
 
-    //
     public Boolean updateEmail(Integer id, String email) {
         Criteria criteria = getSession().createCriteria(User.class);
         criteria.add(Restrictions.eq("id", id));
@@ -91,7 +92,7 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
         }
         return success;
     }
-//
+
 //    public Boolean updateRemind(Integer id, Integer remind) {
 //        Criteria criteria = getSession().createCriteria(User.class);
 //        criteria.add(Restrictions.eq("id", id));
@@ -120,15 +121,7 @@ public class UserDao extends BaseHibernateDao4<User, Integer> {
 //            success = true;
 //        }
 //        return success;
+//        return success;
 //    }
 
-    public User getUserByUid(String uid) {
-        Criteria criteria = getSession().createCriteria(User.class);
-        criteria.add(Restrictions.eq("uid", uid));
-        return (User) criteria.uniqueResult();
-    }
-
-    public User addUser(User user) {
-        return autoSave(user);
-    }
 }
