@@ -8,11 +8,10 @@ import javax.annotation.Resource;
 
 @Service
 public class UserAliasService {
-
     @Resource
     private UserAliasDao userAliasDao;
 
-    public UserAlias getUserByUid(Integer uid) {
+    public UserAlias getUserByUid(String uid) {
         return userAliasDao.getUserByUid(uid);
     }
 

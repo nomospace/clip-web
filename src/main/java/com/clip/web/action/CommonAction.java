@@ -14,11 +14,8 @@ import javax.servlet.http.HttpSession;
 public class CommonAction {
 
     public ModelAndView addObject(HttpServletRequest request, ModelAndView mav) {
-        TokenUtils tokenUtils = new TokenUtils();
-        String token = tokenUtils.getToken(request);
-        User user = this.getCurrentUser(request);
-        mav.addObject("token", token);
-        mav.addObject("user", user);
+        HttpSession session = request.getSession();
+        mav.addObject("userInfo", session.getAttribute("userInfo"));
         return mav;
     }
 

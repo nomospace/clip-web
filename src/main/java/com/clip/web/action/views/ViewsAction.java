@@ -40,6 +40,7 @@ public class ViewsAction extends CommonAction {
 //                mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
 //            }
 //        }
+        this.addObject(request, mav);
         return mav;
     }
 

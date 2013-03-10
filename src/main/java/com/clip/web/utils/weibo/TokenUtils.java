@@ -56,7 +56,7 @@ public class TokenUtils {
     }
 
     public String getTokenByTypeAndCode(String type, String code) {
-        if (type != null && code != null) {
+        if (token == null && type != null && code != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
                 try {
                     token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();

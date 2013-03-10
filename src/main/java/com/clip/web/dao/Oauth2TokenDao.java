@@ -13,11 +13,20 @@ public class Oauth2TokenDao extends BaseHibernateDao4<Oauth2Token, Integer> {
         super(Oauth2Token.class);
     }
 
-    public Oauth2Token updateTokenByUid(Integer uid, String token) {
+    public Boolean updateTokenByUid(String uid, String token) {
         Criteria criteria = getSession().createCriteria(Oauth2Token.class);
-        criteria.add(Restrictions.eq("alias_id", uid));
+        criteria.add(Restrictions.eq("aliasId", Integer.valueOf(uid)));
         Oauth2Token oauth2Token = (Oauth2Token) criteria.uniqueResult();
-        oauth2Token.setAccessToken(token);
-        return autoSave(oauth2Token);
+        Boolean success = false;
+        if (oauth2Token != null) {
+            oauth2Token.setAccessToken(token);
+            oauth2Token = autoSave(oauth2Token);
+            if (oauth2Token != null) {
+                success = true;
+            } else {
+                success = false;
+            }
+        }
+        return success;
     }
 }

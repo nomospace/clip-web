@@ -35,7 +35,9 @@ import java.util.regex.Pattern;
 public class ApiAction extends CommonAction {
     @Resource
     private UserService userService;
+    @Resource
     private UserAliasService userAliasService;
+    @Resource
     private Oauth2TokenService oauth2TokenService;
 
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
@@ -68,36 +70,33 @@ public class ApiAction extends CommonAction {
         // TODO
         TokenUtils tokenUtils = new TokenUtils();
         String token = tokenUtils.getTokenByTypeAndCode(type, code);
-        Integer uid;
         if (token != null) {
-            uid = Integer.valueOf(tokenUtils.getOauth2TokenUidByTypeAndToken(type, token));
-            System.out.println(uid);
-            UserAlias userAlias = userAliasService.getUserByUid(uid);
-            if (userAlias != null) {
+            String uid;
+            uid = tokenUtils.getOauth2TokenUidByTypeAndToken(type, token);
+            User user = userService.getUserByUid(uid);
+            if (user != null) {
                 // update token
-                Oauth2Token oauth2Token = oauth2TokenService.updateTokenByUid(uid, token);
-                if (oauth2Token != null) {
-
-                }
+                oauth2TokenService.updateTokenByUid(uid, token);
             } else {
                 // add user & alias
-                User user = new User();
+                user = new User();
                 Date date = new Date();
                 Long now = date.getTime();
-                user.setName(String.valueOf(uid));
-                user.setUid(String.valueOf(uid));
-                user.setSessionId("sessssssssssion");
+                user.setName(uid);
+                user.setUid(uid);
+                user.setSessionId("fake session_id");
                 user.setTime(now);
                 user = userService.addUser(user);
                 if (user != null) {
-                    userAlias = new UserAlias();
+                    UserAlias userAlias = new UserAlias();
                     userAlias.setType(type);
-                    userAlias.setUserId(uid);
+                    userAlias.setUserId(Integer.valueOf(uid));
                     userAlias.setAlias("");
                     userAlias.setTime(now);
                     userAliasService.addUserAlias(userAlias);
                 }
             }
+            session.setAttribute("userInfo", user);
         }
 
         // aad user_token

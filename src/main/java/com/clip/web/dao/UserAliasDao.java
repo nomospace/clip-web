@@ -15,9 +15,9 @@ public class UserAliasDao extends BaseHibernateDao4<UserAlias, Integer> {
         super(UserAlias.class);
     }
 
-    public UserAlias getUserByUid(Integer uid) {
-        Criteria criteria = getSession().createCriteria(User.class);
-        criteria.add(Restrictions.eq("user_id", uid));
+    public UserAlias getUserByUid(String uid) {
+        Criteria criteria = getSession().createCriteria(UserAlias.class);
+        criteria.add(Restrictions.eq("userId", uid));
         return (UserAlias) criteria.uniqueResult();
     }
 

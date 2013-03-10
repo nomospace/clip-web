@@ -11,7 +11,7 @@ public class Oauth2TokenService {
     @Resource
     private Oauth2TokenDao oauth2TokenDao;
 
-    public Oauth2Token updateTokenByUid(Integer uid, String token) {
+    public Boolean updateTokenByUid(String uid, String token) {
         return oauth2TokenDao.updateTokenByUid(uid, token);
     }
 
