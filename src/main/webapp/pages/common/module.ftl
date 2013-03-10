@@ -55,7 +55,6 @@
   <#include "header.ftl"/>
   <#include "login.ftl"/>
   <#nested>
-<a id="J_page_to_top" class="global-totop" title="回到顶部"></a>
   <#include "footer.ftl"/>
   <#include "js.ftl">
 </body>
@@ -89,13 +88,13 @@
 
 <#-- 顶部导航面内容主体 -->
 <#macro navbar class="" id="">
-<div class='navbar navbar-googlebar navbar-inverse'>
-  <div class='navbar-inner'>
-    <div class='container'>
-      <a class='brand' href='/'>ClipWeb</a>
-      <ul class='nav pull-right'>
-        <li><a href='/'>首页</a></li>
+<div class="navbar navbar-googlebar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/">ClipWeb</a>
+      <ul class="nav pull-right">
         <#if user??>
+          <li><a href="/${user.username!""}">${user.username!""}</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -114,12 +113,9 @@
             </ul>
           </li>
         <#else>
-          <li><a href='/signin'>登录</a></li>
+          <li><a id="J_login" href="javascript:;">登录</a></li>
         </#if>
       </ul>
-      <a class="fork2github" href="https://github.com/nomospace/clip-web">
-        <img src="/static/images/octocat-icon.png" alt="Fork me on GitHub">
-      </a>
     </div>
   </div>
 </div>

@@ -1,9 +1,15 @@
 @import "login.css";
 @import "profile.css";
+@import "status.css";
 
 body {
   overflow-y: scroll;
+  font-family: "adelle", Tahoma, "Times New Roman", serif;
   background: url(/static/images/body-bg.png) repeat 0 0 #e9e9e9;
+}
+
+ol, ul {
+  list-style: none;
 }
 
 .navbar {
@@ -20,10 +26,6 @@ body {
   margin: 0 auto;
 }
 
-.navbar .nav.pull-right {
-  margin-right: 20px;
-}
-
 .navbar-inner {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -31,9 +33,7 @@ body {
 }
 
 .fork2github {
-  position: absolute;
-  top: 10px;
-  right: 4px;
+  display: inline-block;
   width: 30px;
   height: 30px;
 }
@@ -48,7 +48,7 @@ body {
 }
 
 .footer {
-  width: 100%;
-  text-align: center;
+  width: 980px;
+  margin: 0 auto;
 }
 
