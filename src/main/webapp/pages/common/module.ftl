@@ -72,6 +72,7 @@
   <#include "header.ftl"/>
   <#nested>
   <#include "footer.ftl"/>
+  <#include "js.ftl">
 </body>
 </#macro>
 
@@ -95,7 +96,7 @@
       <a class="brand" href="/">ClipWeb</a>
       <ul class="nav pull-right">
         <#if user??>
-          <li><a href="/${user.name!""}">${user.name!""}</a></li>
+          <li><a href="/user/${user.name!""}">${user.name!""}</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
             <ul class="dropdown-menu">

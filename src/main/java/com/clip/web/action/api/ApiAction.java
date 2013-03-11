@@ -71,17 +71,26 @@ public class ApiAction extends CommonAction {
         TokenUtils tokenUtils = new TokenUtils();
         String token = tokenUtils.getTokenByTypeAndCode(type, code);
         if (token != null) {
+            Date date = new Date();
+            Long now = date.getTime();
             String uid;
             uid = tokenUtils.getOauth2TokenUidByTypeAndToken(type, token);
             User user = userService.getUserByUid(uid);
             if (user != null) {
-                // update token
+                UserAlias userAlias = userAliasService.getUserByUid(uid);
+                if (userAlias == null) {
+                    userAlias = new UserAlias();
+                    userAlias.setType(type);
+                    userAlias.setUserId(Integer.valueOf(uid));
+                    userAlias.setAlias("");
+                    userAlias.setTime(now);
+                    userAliasService.addUserAlias(userAlias);
+                }
+                // update oauth2_token
                 oauth2TokenService.updateTokenByUid(uid, token);
             } else {
                 // add user & alias
                 user = new User();
-                Date date = new Date();
-                Long now = date.getTime();
                 user.setName(uid);
                 user.setUid(uid);
                 user.setSessionId(session.getId());
@@ -98,6 +107,8 @@ public class ApiAction extends CommonAction {
                         userAliasService.addUserAlias(userAlias);
                     }
                 }
+                // update oauth2_token
+                oauth2TokenService.updateTokenByUid(uid, token);
             }
             session.setAttribute("userInfo", user);
         }

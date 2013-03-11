@@ -1,6 +1,7 @@
 @import "login.css";
 @import "profile.css";
 @import "status.css";
+@import "setting.css";
 
 body {
   overflow-y: scroll;

@@ -19,7 +19,7 @@ CREATE TABLE `oauth2_token` (
   `alias_id` int(11) unsigned NOT NULL,
   `access_token` varchar(128) NOT NULL default '',
   `refresh_token` varchar(128) NOT NULL default '',
-  `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `time` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_alias_id` (`alias_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1748 DEFAULT CHARSET=utf8 COMMENT='oauth2_token';
@@ -60,7 +60,7 @@ CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `uid` varchar(16) NOT NULL default '',
   `name` varchar(63) NOT NULL default '',
-  `email` varchar(63) NOT NULL default '',
+  `email` varchar(63) default '',
   `session_id` varchar(63) default NULL,
   `time` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`),

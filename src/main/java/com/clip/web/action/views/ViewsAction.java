@@ -1,7 +1,11 @@
 package com.clip.web.action.views;
 
 import com.clip.web.action.CommonAction;
+import com.clip.web.model.Oauth2Token;
 import com.clip.web.model.User;
+import com.clip.web.model.UserAlias;
+import com.clip.web.service.Oauth2TokenService;
+import com.clip.web.service.UserAliasService;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,10 @@ import javax.servlet.http.HttpSession;
 public class ViewsAction extends CommonAction {
     @Resource
     private UserService userService;
+    @Resource
+    private UserAliasService userAliasService;
+    @Resource
+    private Oauth2TokenService oauth2TokenService;
 
     @RequestMapping("/")
     public ModelAndView index(final HttpServletRequest request) throws WeiboException {
@@ -65,26 +73,25 @@ public class ViewsAction extends CommonAction {
         return mav;
     }
 
-    @RequestMapping("/user/{username}")
+    @RequestMapping("/user/{name}")
     public ModelAndView showName(@PathVariable("name") String name, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("user");
-//        User user = userService.getUserByName(name);
-//        if (user != null) {
-//            String uid = user.getUid();
-//            String token = user.getSina_weibo_token();
-//            String tokenType = CoreConstants.SINA_WEIBO;
-//            if (uid.isEmpty()) {
-//                uid = user.getQq_weibo_uid();
-//                token = user.getQq_weibo_token();
-//                tokenType = CoreConstants.QQ_WEIBO;
-//            }
-//            this.addObject(request, mav);
-//            mav.addObject("ouid", uid);
-//            mav.addObject("ouser", user);
-//            mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
-//        } else {
-//            mav = this.to404(response);
-//        }
+        User user = userService.getUserByName(name);
+        if (user != null) {
+            String uid = user.getUid();
+            UserAlias userAlias = userAliasService.getUserByUid(uid);
+            Oauth2Token oauth2Token = oauth2TokenService.getTokenByUid(user.getUid());
+            if (userAlias != null && oauth2Token != null) {
+                String type = userAlias.getType();
+                String token = oauth2Token.getAccessToken();
+                this.addObject(request, mav);
+                mav.addObject("ouid", uid);
+                mav.addObject("ouser", user);
+                mav.addObject("statuses", this.getUserTimeline(user.getId(), type, token).getStatuses());
+            }
+        } else {
+            mav = this.to404(request, response);
+        }
         return mav;
     }
 

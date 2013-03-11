@@ -3,7 +3,7 @@
   <#list statuses as status>
     <#if status?has_content&&status.user?has_content&&status.source?has_content>
       <li class="status-body span4">
-        <a class="status-avatar" href="/user/${user.username!""}"><img src="${status.user.profileImageUrl!""}" alt="${status.user.name!""}"></a>
+        <a class="status-avatar" href="/user/${user.name!""}"><img src="${status.user.profileImageUrl!""}" alt="${status.user.name!""}"></a>
         <div class="status-date">
           <p>${status.user.name!""}</p><p>${status.createdAt?date}</p>
         </div>
