@@ -9,7 +9,7 @@
           <h3>账户设置</h3>
           <fieldset>
             <legend>设置个性域名</legend>
-            <input type="text" id="J_name" value="${user.username!""}">
+            <input type="text" id="J_name" value="${user.name!""}">
             <button type="submit" class="btn btn-primary" id="J_name_btn">设置</button>
           <span class="help-block">
             你的个性域名 xxx, 数字字母和.-_ <br>
@@ -27,7 +27,7 @@
             <div class="control-group">
               <label class="control-label">注册时间：</label>
               <div class="controls">
-                <span class="help-inline">${user.register_date?number_to_date}</span>
+                <span class="help-inline">${user.time?number_to_date}</span>
               </div>
             </div>
             <div class="control-group">
@@ -45,24 +45,24 @@
               </div>
             </div>
           </fieldset>
-          <fieldset>
-            <legend>邮件提醒</legend>
-            <span class="help-block">clip 会通过 email 提醒一些与你有关的事情</span>
-            <div class="control-group">
-              <label class="control-label">历史上的今天：</label>
-              <div class="controls" id="J_remind">
-                <label class="radio">
-                  <input type="radio" name="today_in_history" value="1" <#if !user.remind??||user.remind==1>checked</#if>>接受</label>
-                <label class="radio">
-                  <input type="radio" name="today_in_history" value="0" <#if user.remind??&&user.remind==0>checked</#if>>不接受</label>
-              </div>
-            </div>
-            <div class="control-group">
-              <div class="controls">
-                <button type="submit" class="btn btn-primary" id="J_remind_btn">修改提醒设置</button>
-              </div>
-            </div>
-          </fieldset>
+          <#--<fieldset>-->
+            <#--<legend>邮件提醒</legend>-->
+            <#--<span class="help-block">clip 会通过 email 提醒一些与你有关的事情</span>-->
+            <#--<div class="control-group">-->
+              <#--<label class="control-label">历史上的今天：</label>-->
+              <#--<div class="controls" id="J_remind">-->
+                <#--<label class="radio">-->
+                  <#--<input type="radio" name="today_in_history" value="1" <#if !user.remind??||user.remind==1>checked</#if>>接受</label>-->
+                <#--<label class="radio">-->
+                  <#--<input type="radio" name="today_in_history" value="0" <#if user.remind??&&user.remind==0>checked</#if>>不接受</label>-->
+              <#--</div>-->
+            <#--</div>-->
+            <#--<div class="control-group">-->
+              <#--<div class="controls">-->
+                <#--<button type="submit" class="btn btn-primary" id="J_remind_btn">修改提醒设置</button>-->
+              <#--</div>-->
+            <#--</div>-->
+          <#--</fieldset>-->
           <fieldset>
             <legend>隐私设置</legend>
             <span class="help-block">clip 的信息流默认所有用户可见，你可以方便的分享给其他用户，作为自己的 about 页面是个很不错的选择</span>

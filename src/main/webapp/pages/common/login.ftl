@@ -16,7 +16,7 @@
 <#else>
 <section class="wrapper">
   <p class="alert alert-info">
-    您已登录 ${user.username!""}
+    您已登录 ${user.name!""}
   </p>
 </section>
 </#if>

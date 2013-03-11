@@ -47,8 +47,12 @@ ol, ul {
   margin: 70px auto 0;
 }
 
+.wrapper .alert {
+  margin-bottom: 10px;
+}
+
 .footer {
   width: 980px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
