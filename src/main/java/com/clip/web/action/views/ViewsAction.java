@@ -89,22 +89,25 @@ public class ViewsAction extends CommonAction {
     }
 
     @RequestMapping("/404")
-    public ModelAndView to404(HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("common/404");
+    public ModelAndView to404(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("404");
+        this.addObject(request, mav);
         response.setStatus(404);
         return mav;
     }
 
     @RequestMapping("/500")
-    public ModelAndView to500(HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("common/500");
+    public ModelAndView to500(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("500");
+        this.addObject(request, mav);
         response.setStatus(500);
         return mav;
     }
 
     @RequestMapping("/403")
-    public ModelAndView to403(HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("common/403");
+    public ModelAndView to403(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("403");
+        this.addObject(request, mav);
         response.setStatus(403);
         return mav;
     }

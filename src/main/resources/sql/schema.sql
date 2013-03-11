@@ -61,7 +61,7 @@ CREATE TABLE `user` (
   `uid` varchar(16) NOT NULL default '',
   `name` varchar(63) NOT NULL default '',
   `email` varchar(63) NOT NULL default '',
-  `session_id` varchar(16) default NULL,
+  `session_id` varchar(63) default NULL,
   `time` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_uid` (`uid`)

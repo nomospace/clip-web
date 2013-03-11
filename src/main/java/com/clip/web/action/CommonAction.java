@@ -15,7 +15,10 @@ public class CommonAction {
 
     public ModelAndView addObject(HttpServletRequest request, ModelAndView mav) {
         HttpSession session = request.getSession();
-        mav.addObject("user", session.getAttribute("userInfo"));
+        User user = (User) session.getAttribute("userInfo");
+        if (user != null) {
+            mav.addObject("user", user);
+        }
         return mav;
     }
 

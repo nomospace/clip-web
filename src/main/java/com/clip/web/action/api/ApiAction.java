@@ -84,16 +84,19 @@ public class ApiAction extends CommonAction {
                 Long now = date.getTime();
                 user.setName(uid);
                 user.setUid(uid);
-                user.setSessionId("fake session_id");
+                user.setSessionId(session.getId());
                 user.setTime(now);
                 user = userService.addUser(user);
                 if (user != null) {
-                    UserAlias userAlias = new UserAlias();
-                    userAlias.setType(type);
-                    userAlias.setUserId(Integer.valueOf(uid));
-                    userAlias.setAlias("");
-                    userAlias.setTime(now);
-                    userAliasService.addUserAlias(userAlias);
+                    UserAlias userAlias = userAliasService.getUserByUid(uid);
+                    if (userAlias == null) {
+                        userAlias = new UserAlias();
+                        userAlias.setType(type);
+                        userAlias.setUserId(Integer.valueOf(uid));
+                        userAlias.setAlias("");
+                        userAlias.setTime(now);
+                        userAliasService.addUserAlias(userAlias);
+                    }
                 }
             }
             session.setAttribute("userInfo", user);

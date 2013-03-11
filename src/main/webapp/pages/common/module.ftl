@@ -68,9 +68,10 @@
 -->
 <#macro body_noAuth class="" id="">
 <body class="${class}" <#if id!="">id="${id}"</#if>>
+  <@navbar></@navbar>
+  <#include "header.ftl"/>
   <#nested>
-<a id="J_page_to_top" class="global-totop" title="回到顶部"></a>
-  <#include "js.ftl">
+  <#include "footer.ftl"/>
 </body>
 </#macro>
 
@@ -94,7 +95,7 @@
       <a class="brand" href="/">ClipWeb</a>
       <ul class="nav pull-right">
         <#if user??>
-          <li><a href="/${user.username!""}">${user.username!""}</a></li>
+          <li><a href="/${user.name!""}">${user.name!""}</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
             <ul class="dropdown-menu">
