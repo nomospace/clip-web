@@ -1,5 +1,5 @@
 <#if statuses?has_content>
-<ol class="row">
+<ol class="row clearfix">
   <#list statuses as status>
     <#if status?has_content&&status.user?has_content&&status.source?has_content>
       <li class="status-body span4">

@@ -51,13 +51,6 @@
   background-position: 0 -112px;
 }
 
-#user_info .avatar {
-  float: left;
-  margin-right: 15px;
-  width: 64px;
-  height: 64px;
-}
-
-#user_info .name {
-  margin: 0 6px 2px 4px;
+.user-page .hero-unit {
+  background-color: #fff;
 }

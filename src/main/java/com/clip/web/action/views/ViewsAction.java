@@ -86,7 +86,7 @@ public class ViewsAction extends CommonAction {
                 String token = oauth2Token.getAccessToken();
                 this.addObject(request, mav);
                 mav.addObject("ouid", uid);
-                mav.addObject("ouser", user);
+                mav.addObject("ouser", this.getUserFromOauth2Token(uid, type, token));
                 mav.addObject("statuses", this.getUserTimeline(user.getId(), type, token).getStatuses());
             }
         } else {

@@ -50,7 +50,7 @@
    </@body>
 -->
 <#macro body class="" id="">
-<body class="${class}" <#if id!="">id="${id}"</#if>>
+<body class="scrollable ${class}" <#if id!="">id="${id}"</#if>>
   <@navbar></@navbar>
   <#include "header.ftl"/>
   <#include "login.ftl"/>
