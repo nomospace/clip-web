@@ -20,40 +20,54 @@ public class TokenUtils {
     protected static String token;
 //    protected static AccessToken accessToken;
 
-    public String getToken(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
-        String code;
-        if (token == null && type != null) {
-            if (type.equals(CoreConstants.SINA_WEIBO)) {
-                session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.SINA_WEIBO);
-                code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
-                if (code != null) {
-                    try {
-                        token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
-                    } catch (WeiboException e) {
-                        if (401 == e.getStatusCode()) {
-                            logger.info("Unable to get the access token.");
-                        } else {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } else if (type.equals(CoreConstants.QQ_WEIBO)) {
-                session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.QQ_WEIBO);
-                code = (String) session.getAttribute(CoreConstants.QQ_WEIBO_CODE);
-                OAuthV2Client.parseAuthorization(code, oauth4Qq);
-                oauth4Qq.setGrantType("authorize_code");
-                try {
-                    OAuthV2Client.accessToken(oauth4Qq);
-                    token = oauth4Qq.getAccessToken();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    public String getToken() {
         return token;
     }
+
+    public String getToken(String type, String code) {
+        String result;
+        if (type == null && code == null) {
+            result = this.getToken();
+        } else {
+            result = this.getOauth2TokenUidByTypeAndToken(type, code);
+        }
+        return result;
+    }
+
+//    public String getToken(HttpServletRequest request) {
+//        HttpSession session = request.getSession();
+//        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+//        String code;
+//        if (token == null && type != null) {
+//            if (type.equals(CoreConstants.SINA_WEIBO)) {
+//                session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.SINA_WEIBO);
+//                code = (String) session.getAttribute(CoreConstants.SINA_WEIBO_CODE);
+//                if (code != null) {
+//                    try {
+//                        token = oauth4Sina.getAccessTokenByCode(code).getAccessToken();
+//                    } catch (WeiboException e) {
+//                        if (401 == e.getStatusCode()) {
+//                            logger.info("Unable to get the access token.");
+//                        } else {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            } else if (type.equals(CoreConstants.QQ_WEIBO)) {
+//                session.setAttribute(CoreConstants.WEIBO_TYPE, CoreConstants.QQ_WEIBO);
+//                code = (String) session.getAttribute(CoreConstants.QQ_WEIBO_CODE);
+//                OAuthV2Client.parseAuthorization(code, oauth4Qq);
+//                oauth4Qq.setGrantType("authorize_code");
+//                try {
+//                    OAuthV2Client.accessToken(oauth4Qq);
+//                    token = oauth4Qq.getAccessToken();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return token;
+//    }
 
     public String getTokenByTypeAndCode(String type, String code) {
         if (token == null && type != null && code != null) {
@@ -111,7 +125,7 @@ public class TokenUtils {
         String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
         if (type != null && token != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
-                String uid = this.getOauth2TokenUidByTypeAndToken(type, token);
+                String uid = this.getToken(type, token);
                 Users users = new Users();
                 users.client.setToken(token);
                 try {

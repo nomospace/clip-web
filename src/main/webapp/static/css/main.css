@@ -18,7 +18,7 @@ ol, ul {
   top: 0;
   width: 100%;
   font-size: 14px;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .navbar .container {

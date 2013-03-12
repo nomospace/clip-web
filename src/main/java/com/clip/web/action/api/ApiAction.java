@@ -2,10 +2,10 @@ package com.clip.web.action.api;
 
 import com.clip.core.bean.ReturnBean;
 import com.clip.web.action.CommonAction;
-import com.clip.web.model.Oauth2Token;
 import com.clip.web.model.User;
 import com.clip.web.model.UserAlias;
 import com.clip.web.service.Oauth2TokenService;
+import com.clip.web.service.StatusService;
 import com.clip.web.service.UserAliasService;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
@@ -39,6 +39,8 @@ public class ApiAction extends CommonAction {
     private UserAliasService userAliasService;
     @Resource
     private Oauth2TokenService oauth2TokenService;
+    @Resource
+    private StatusService statusService;
 
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
@@ -58,7 +60,8 @@ public class ApiAction extends CommonAction {
     }
 
     @RequestMapping("/api/{type}/code/{code}")
-    public void api(@PathVariable("type") String type, @PathVariable("code") String code, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+    public void api(@PathVariable("type") String type, @PathVariable("code") String code,
+                    final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         if (type.equals(CoreConstants.SINA_WEIBO)) {
             session.setAttribute(CoreConstants.SINA_WEIBO_CODE, code);
@@ -74,7 +77,7 @@ public class ApiAction extends CommonAction {
             Date date = new Date();
             Long now = date.getTime();
             String uid;
-            uid = tokenUtils.getOauth2TokenUidByTypeAndToken(type, token);
+            uid = tokenUtils.getToken(type, token);
             User user = userService.getUserByUid(uid);
             if (user != null) {
                 UserAlias userAlias = userAliasService.getUserByUid(uid);
@@ -121,7 +124,8 @@ public class ApiAction extends CommonAction {
 
     @RequestMapping("/updateName")
     @ResponseBody
-    public String updateName(@RequestParam(value = "name") String name, final HttpServletRequest request) throws UnsupportedEncodingException {
+    public String updateName(@RequestParam(value = "name") String name, final HttpServletRequest request)
+            throws UnsupportedEncodingException {
         String result;
         name = name.toLowerCase();
         HashMap map = this.checkName(name);
@@ -170,7 +174,8 @@ public class ApiAction extends CommonAction {
 
     @RequestMapping("/updateEmail")
     @ResponseBody
-    public String updateEmail(@RequestParam(value = "email") String email, HttpServletRequest request) throws UnsupportedEncodingException {
+    public String updateEmail(@RequestParam(value = "email") String email, HttpServletRequest request)
+            throws UnsupportedEncodingException {
         User user = this.getCurrentUser(request);
         email = email.toLowerCase();
         JSONObject jsonObject = userService.updateEmail(user.getId(), email);
@@ -179,6 +184,16 @@ public class ApiAction extends CommonAction {
             user.setEmail(email);
             this.updateCurrentUserInSession(user, request);
         }
+        return jsonObject.toString();
+    }
+
+    @RequestMapping("/updateStatus")
+    @ResponseBody
+    public String updateStatus(@RequestParam(value = "status") String status, HttpServletRequest request)
+            throws UnsupportedEncodingException {
+        HttpSession session = request.getSession();
+        String type = (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
+        JSONObject jsonObject = statusService.updateStatus(type, status);
         return jsonObject.toString();
     }
 

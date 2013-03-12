@@ -5,6 +5,7 @@ import com.clip.web.model.Oauth2Token;
 import com.clip.web.model.User;
 import com.clip.web.model.UserAlias;
 import com.clip.web.service.Oauth2TokenService;
+import com.clip.web.service.StatusService;
 import com.clip.web.service.UserAliasService;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller("viewsAction")
 public class ViewsAction extends CommonAction {
@@ -27,6 +29,8 @@ public class ViewsAction extends CommonAction {
     private UserAliasService userAliasService;
     @Resource
     private Oauth2TokenService oauth2TokenService;
+    @Resource
+    private StatusService statusService;
 
     @RequestMapping("/")
     public ModelAndView index(final HttpServletRequest request) throws WeiboException {
@@ -74,7 +78,8 @@ public class ViewsAction extends CommonAction {
     }
 
     @RequestMapping("/user/{name}")
-    public ModelAndView showName(@PathVariable("name") String name, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showUser(@PathVariable("name") String name,
+                                 HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("user");
         User user = userService.getUserByName(name);
         if (user != null) {
@@ -85,9 +90,12 @@ public class ViewsAction extends CommonAction {
                 String type = userAlias.getType();
                 String token = oauth2Token.getAccessToken();
                 this.addObject(request, mav);
+                // save statuses
+                List statuses = this.getUserTimeline(user.getId(), type, token).getStatuses();
+                statusService.addStatus(statuses);
                 mav.addObject("ouid", uid);
                 mav.addObject("ouser", this.getUserFromOauth2Token(uid, type, token));
-                mav.addObject("statuses", this.getUserTimeline(user.getId(), type, token).getStatuses());
+                mav.addObject("statuses", statuses);
             }
         } else {
             mav = this.to404(request, response);
