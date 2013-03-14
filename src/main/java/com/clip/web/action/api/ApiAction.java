@@ -45,6 +45,13 @@ public class ApiAction extends CommonAction {
     private static Oauth4Qq oauth4Qq = new Oauth4Qq();
     private static Oauth4Sina oauth4Sina = new Oauth4Sina();
 
+    @RequestMapping("/logout")
+    public void logout(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect("/");
+    }
+
     @RequestMapping("/connect/sina")
     public void connectSina(final HttpServletResponse response) throws WeiboException, IOException {
         response.sendRedirect(oauth4Sina.authorize(

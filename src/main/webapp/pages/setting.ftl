@@ -65,7 +65,6 @@
           <#--</fieldset>-->
           <fieldset>
             <legend>隐私设置</legend>
-            <span class="help-block">clip 的信息流默认所有用户可见，你可以方便的分享给其他用户，作为自己的 about 页面是个很不错的选择</span>
             <label class="checkbox">
               <input type="checkbox" id="inlineCheckbox1" value="option1"> 公开
             </label>
@@ -75,6 +74,7 @@
             <label class="checkbox">
               <input type="checkbox" id="inlineCheckbox3" value="option3"> 仅自己可见
             </label>
+            <span class="help-block">clip 的信息流默认所有用户可见，你可以方便的分享给其他用户，作为自己的 about 页面是个很不错的选择</span>
             <div class="control-group">
               <div class="controls">
                 <button type="submit" class="btn btn-primary">修改隐私设置</button>
