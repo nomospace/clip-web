@@ -33,7 +33,7 @@
   <#if target!="">
     <base target="${target}"/>
   </#if>
-  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
   <#include "function.ftl"/>
   <#include "css.ftl">
   <!--[if IE]>
@@ -68,8 +68,10 @@
 -->
 <#macro body_noAuth class="" id="">
 <body class="${class}" <#if id!="">id="${id}"</#if>>
+  <@navbar></@navbar>
+  <#include "header.ftl"/>
   <#nested>
-<a id="J_page_to_top" class="global-totop" title="回到顶部"></a>
+  <#include "footer.ftl"/>
   <#include "js.ftl">
 </body>
 </#macro>
@@ -94,7 +96,8 @@
       <a class="brand" href="/">ClipWeb</a>
       <ul class="nav pull-right">
         <#if user??>
-          <li><a href="/${user.username!""}">${user.username!""}</a></li>
+          <li><a href="/user/${user.name!""}">${user.name!""}</a></li>
+          <li><a href="#J_update_status" data-toggle="modal">同步</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" data-action="popup-users">账户<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -119,4 +122,20 @@
     </div>
   </div>
 </div>
+  <#if user??>
+  <!-- J_update_status Modal -->
+  <div id="J_update_status" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>你想说些什么……</h3>
+    </div>
+    <div class="modal-body">
+      <textarea id="J_status_body" style="width:95%" rows="10"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+      <button class="btn btn-primary">确定</button>
+    </div>
+  </div>
+  </#if>
 </#macro>

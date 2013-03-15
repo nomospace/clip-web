@@ -3,23 +3,14 @@
 <#escape x as x?html>
   <@html>
     <@body class="${page_name}-page">
-    <!-- wrapper -->
     <div class='wrapper'>
-      <#if user??>
-        <#include "common/status.ftl">
-      </#if>
-      <!-- Main container. -->
-      <div role="main" id="main">
-
-      </div>
-      <div id="user_info" class="side-box">
-        <div class="info-profile">
-          <div class="avatar">
-            <a href="/user/${ouser.username}" title="${ouser.username}" class="img x">
-              <img width="64px" height="64px" src="${ouser.profileImageUrl!""}"></a>
-          </div>
-          <div class="entry">
-            <div class="name"><a href="/user/${ouser.username}">${ouser.username}</a></div>
+      <div class="hero-unit">
+        <div class="media">
+          <a href="/user/${ouser.name}" title="${ouser.name}" class="pull-left">
+            <img width="64px" height="64px" src="${ouser.profileImageUrl!""}">
+          </a>
+          <div class="media-body">
+            <div class="name"><a href="/user/${ouser.name}">${ouser.name}</a></div>
             <p>
               <!-- 其他用户展示已绑定平台的图标，点击跳转个平台 -->
               <!-- 个人展示页面未绑定图标灰色：无 "oauth"，点击跳转授权 -->
@@ -45,16 +36,19 @@
                 <a title="添加twitter授权登录" href="/connect/twitter">twitter</a>
               </span>
             </p>
+            <p>${ouser.description!""}</p>
           </div>
         </div>
-        <!-- 个人简介 -->
         <div class="info_inner">
           <p>
           ${ouser.desription!""}
           </p>
         </div>
       </div>
-      <!-- Application source. -->
+      <#if user??>
+        <#include "common/status.ftl">
+      </#if>
+      <button class="btn btn-large btn-block" type="button">加载更多</button>
     </div>
     </@body>
   </@html>

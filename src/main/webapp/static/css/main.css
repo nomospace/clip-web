@@ -1,6 +1,7 @@
 @import "login.css";
 @import "profile.css";
 @import "status.css";
+@import "setting.css";
 
 body {
   overflow-y: scroll;
@@ -17,7 +18,7 @@ ol, ul {
   top: 0;
   width: 100%;
   font-size: 14px;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .navbar .container {
@@ -47,8 +48,12 @@ ol, ul {
   margin: 70px auto 0;
 }
 
+.wrapper .alert {
+  margin-bottom: 10px;
+}
+
 .footer {
   width: 980px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 

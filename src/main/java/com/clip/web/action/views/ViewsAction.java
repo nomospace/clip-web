@@ -1,7 +1,12 @@
 package com.clip.web.action.views;
 
 import com.clip.web.action.CommonAction;
+import com.clip.web.model.Oauth2Token;
 import com.clip.web.model.User;
+import com.clip.web.model.UserAlias;
+import com.clip.web.service.Oauth2TokenService;
+import com.clip.web.service.StatusService;
+import com.clip.web.service.UserAliasService;
 import com.clip.web.service.UserService;
 import com.clip.web.utils.CoreConstants;
 import org.springframework.stereotype.Controller;
@@ -14,11 +19,18 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller("viewsAction")
 public class ViewsAction extends CommonAction {
     @Resource
     private UserService userService;
+    @Resource
+    private UserAliasService userAliasService;
+    @Resource
+    private Oauth2TokenService oauth2TokenService;
+    @Resource
+    private StatusService statusService;
 
     @RequestMapping("/")
     public ModelAndView index(final HttpServletRequest request) throws WeiboException {
@@ -65,46 +77,52 @@ public class ViewsAction extends CommonAction {
         return mav;
     }
 
-    @RequestMapping("/user/{username}")
-    public ModelAndView showName(@PathVariable("name") String name, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/user/{name}")
+    public ModelAndView showUser(@PathVariable("name") String name,
+                                 HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("user");
-//        User user = userService.getUserByName(name);
-//        if (user != null) {
-//            String uid = user.getUid();
-//            String token = user.getSina_weibo_token();
-//            String tokenType = CoreConstants.SINA_WEIBO;
-//            if (uid.isEmpty()) {
-//                uid = user.getQq_weibo_uid();
-//                token = user.getQq_weibo_token();
-//                tokenType = CoreConstants.QQ_WEIBO;
-//            }
-//            this.addObject(request, mav);
-//            mav.addObject("ouid", uid);
-//            mav.addObject("ouser", user);
-//            mav.addObject("statuses", this.getUserTimeline(user.getId(), tokenType, token).getStatuses());
-//        } else {
-//            mav = this.to404(response);
-//        }
+        User user = userService.getUserByName(name);
+        if (user != null) {
+            String uid = user.getUid();
+            UserAlias userAlias = userAliasService.getUserByUid(uid);
+            Oauth2Token oauth2Token = oauth2TokenService.getTokenByUid(user.getUid());
+            if (userAlias != null && oauth2Token != null) {
+                String type = userAlias.getType();
+                String token = oauth2Token.getAccessToken();
+                this.addObject(request, mav);
+                // save statuses
+                List statuses = this.getUserTimeline(user.getId(), type, token).getStatuses();
+                statusService.addStatus(statuses);
+                mav.addObject("ouid", uid);
+                mav.addObject("ouser", this.getUserFromOauth2Token(uid, type, token));
+                mav.addObject("statuses", statuses);
+            }
+        } else {
+            mav = this.to404(request, response);
+        }
         return mav;
     }
 
     @RequestMapping("/404")
-    public ModelAndView to404(HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("common/404");
+    public ModelAndView to404(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("404");
+        this.addObject(request, mav);
         response.setStatus(404);
         return mav;
     }
 
     @RequestMapping("/500")
-    public ModelAndView to500(HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("common/500");
+    public ModelAndView to500(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("500");
+        this.addObject(request, mav);
         response.setStatus(500);
         return mav;
     }
 
     @RequestMapping("/403")
-    public ModelAndView to403(HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("common/403");
+    public ModelAndView to403(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("403");
+        this.addObject(request, mav);
         response.setStatus(403);
         return mav;
     }
