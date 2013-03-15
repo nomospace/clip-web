@@ -6,6 +6,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public class Oauth2TokenDao extends BaseHibernateDao4<Oauth2Token, Integer> {
 
@@ -13,20 +15,25 @@ public class Oauth2TokenDao extends BaseHibernateDao4<Oauth2Token, Integer> {
         super(Oauth2Token.class);
     }
 
-    public Boolean updateTokenByUid(String uid, String token) {
+    public Oauth2Token getTokenByUid(String uid) {
+        Criteria criteria = getSession().createCriteria(Oauth2Token.class);
+        criteria.add(Restrictions.eq("aliasId", Integer.valueOf(uid)));
+        return (Oauth2Token) criteria.uniqueResult();
+    }
+
+    public Oauth2Token updateTokenByUid(String uid, String token) {
         Criteria criteria = getSession().createCriteria(Oauth2Token.class);
         criteria.add(Restrictions.eq("aliasId", Integer.valueOf(uid)));
         Oauth2Token oauth2Token = (Oauth2Token) criteria.uniqueResult();
-        Boolean success = false;
         if (oauth2Token != null) {
             oauth2Token.setAccessToken(token);
-            oauth2Token = autoSave(oauth2Token);
-            if (oauth2Token != null) {
-                success = true;
-            } else {
-                success = false;
-            }
+        } else {
+            oauth2Token = new Oauth2Token();
+            oauth2Token.setAliasId(Integer.valueOf(uid));
+            oauth2Token.setAccessToken(token);
+            oauth2Token.setRefreshToken(token);
+            oauth2Token.setTime(new Date().getTime());
         }
-        return success;
+        return autoSave(oauth2Token);
     }
 }

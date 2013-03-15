@@ -18,8 +18,7 @@ public class UserService {
     }
 
     public User addUser(User user) {
-        userDao.addUser(user);
-        return user;
+        return userDao.addUser(user);
     }
 
     public Boolean updateToken(String token) {
@@ -53,7 +52,8 @@ public class UserService {
         JSONObject result = new ReturnBean(true, null, dataJson).toJSONObject();
         return result;
     }
-//
+
+    //
     public JSONObject updateEmail(Integer id, String email) {
         Boolean success = userDao.updateEmail(id, email);
         JSONObject resultJson = JSONObject.fromObject(success);

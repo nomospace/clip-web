@@ -5,6 +5,7 @@ import com.clip.web.utils.CoreConstants;
 import com.clip.web.utils.weibo.TokenUtils;
 import org.springframework.web.servlet.ModelAndView;
 import weibo4j.Timeline;
+import weibo4j.Users;
 import weibo4j.model.StatusWapper;
 import weibo4j.model.WeiboException;
 
@@ -15,7 +16,10 @@ public class CommonAction {
 
     public ModelAndView addObject(HttpServletRequest request, ModelAndView mav) {
         HttpSession session = request.getSession();
-        mav.addObject("userInfo", session.getAttribute("userInfo"));
+        User user = (User) session.getAttribute("userInfo");
+        if (user != null) {
+            mav.addObject("user", user);
+        }
         return mav;
     }
 
@@ -51,6 +55,23 @@ public class CommonAction {
             return status;
         }
         return null;
+    }
+
+    public Object getUserFromOauth2Token(String uid, String type, String token) {
+        Object user = null;
+        if (type.equals(CoreConstants.SINA_WEIBO)) {
+            Users um = new Users();
+            um.client.setToken(token);
+            try {
+                user = um.showUserById(uid);
+                System.out.println(user.toString());
+            } catch (WeiboException e) {
+                e.printStackTrace();
+            }
+        } else if (type.equals(CoreConstants.QQ_WEIBO)) {
+
+        }
+        return user;
     }
 
 }
