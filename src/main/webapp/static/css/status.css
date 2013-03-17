@@ -17,3 +17,7 @@
 .status-date {
   display: inline-block;
 }
+
+.status-retweet {
+  color: #888;
+}

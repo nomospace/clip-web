@@ -1,5 +1,5 @@
 <#if statuses?has_content>
-<ol class="row clearfix">
+<ol id="J_status_list" class="row clearfix">
   <#list statuses as status>
     <#if status?has_content&&status.user?has_content&&status.source?has_content>
       <li class="status-body span4">
@@ -10,6 +10,16 @@
         <p>${status.text!""}</p>
         <#if status.thumbnailPic?has_content>
           <img src="${status.thumbnailPic!""}" alt="">
+        </#if>
+        <#if status.retweetedStatus?has_content>
+          <#assign _status=status.retweetedStatus/>
+          <div class="status-retweet">
+            //<a href="/user/${_status.user.name!""}">@${_status.user.name!""}</a>
+            <p>${_status.text!""}</p>
+            <#if _status.thumbnailPic?has_content>
+              <p><img src="${_status.thumbnailPic!""}"></p>
+            </#if>
+          </div>
         </#if>
         <p>来自 <a href="${status.source.url!""}" target="_blank">${status.source.name!""}</a></p>
       </li>
