@@ -17,3 +17,15 @@
 .status-date {
   display: inline-block;
 }
+
+.status-date p:first-child {
+  margin-bottom: 0;
+}
+
+.status-date p:last-child {
+  color: #888;
+}
+
+.status-retweet {
+  color: #888;
+}
