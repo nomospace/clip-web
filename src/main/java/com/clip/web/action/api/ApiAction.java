@@ -49,6 +49,7 @@ public class ApiAction extends CommonAction {
     public void logout(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         session.invalidate();
+        TokenUtils.destroyToken();
         response.sendRedirect("/");
     }
 
@@ -78,13 +79,12 @@ public class ApiAction extends CommonAction {
         session.setAttribute(CoreConstants.WEIBO_TYPE, type);
 
         // TODO
-        TokenUtils tokenUtils = new TokenUtils();
-        String token = tokenUtils.getTokenByTypeAndCode(type, code);
+        String token = TokenUtils.getTokenByTypeAndCode(type, code);
         if (token != null) {
             Date date = new Date();
             Long now = date.getTime();
             String uid;
-            uid = tokenUtils.getToken(type, token);
+            uid = TokenUtils.getToken(type, token);
             User user = userService.getUserByUid(uid);
             if (user != null) {
                 UserAlias userAlias = userAliasService.getUserByUid(uid);

@@ -26,7 +26,8 @@
     baseUrl: '${cfg_base_js_module}',
     deps: ['base', '${page_name!"index"}'],
     paths: {
-      'css': '${cfg_base_css}'
+      'css': '${cfg_base_css}',
+      'masonry': '${cfg_base_js_base}/jquery.masonry'
     },
     shim: {
     },

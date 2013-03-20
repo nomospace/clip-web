@@ -20,16 +20,16 @@ public class TokenUtils {
     protected static String token;
 //    protected static AccessToken accessToken;
 
-    public String getToken() {
+    public static String getToken() {
         return token;
     }
 
-    public String getToken(String type, String code) {
+    public static String getToken(String type, String code) {
         String result;
         if (type == null && code == null) {
-            result = this.getToken();
+            result = getToken();
         } else {
-            result = this.getOauth2TokenUidByTypeAndToken(type, code);
+            result = getOauth2TokenUidByTypeAndToken(type, code);
         }
         return result;
     }
@@ -69,7 +69,7 @@ public class TokenUtils {
 //        return token;
 //    }
 
-    public String getTokenByTypeAndCode(String type, String code) {
+    public static String getTokenByTypeAndCode(String type, String code) {
         if (token == null && type != null && code != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
                 try {
@@ -100,7 +100,7 @@ public class TokenUtils {
         return (String) session.getAttribute(CoreConstants.WEIBO_TYPE);
     }
 
-    public String getOauth2TokenUidByTypeAndToken(String type, String token) {
+    public static String getOauth2TokenUidByTypeAndToken(String type, String token) {
         String uid = null;
         if (type != null && token != null) {
             if (type.equals(CoreConstants.SINA_WEIBO)) {
@@ -137,6 +137,10 @@ public class TokenUtils {
             }
         }
         return null;
+    }
+
+    public static void destroyToken() {
+        token = null;
     }
 
 }
